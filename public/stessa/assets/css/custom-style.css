@@ -1,0 +1,11 @@
+/* style custom untuk dashboard user */
+.text-white > a {
+    color: #fff !important;
+}
+
+
+/* style custom untuk dashboard admin */
+
+@media only screen and (min-width: 992px) {
+
+}
