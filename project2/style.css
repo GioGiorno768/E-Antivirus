@@ -1,0 +1,359 @@
+:root {
+  --primary: #0d6efd;
+  --colorA: rgb(119, 119, 139);
+  --colorInput: rgba(119, 119, 139, 0.522);
+  --primaryA: #DC3545;
+  --white: white;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+main {
+  width: 100vw;
+  height: 100vh;
+  overflow-x: hidden;
+}
+main > img {
+  z-index: -10;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+section {
+  width: 80%;
+  height: 50%;
+}
+section > div {
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.355);
+}
+.title {
+  top: -45px;
+  left: 0;
+}
+.title > div {
+  color: var(--white);
+}
+
+/* ====== personil ======= */
+.personil {
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.153);
+}
+.parent-list-personil {
+  height: 300px;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 7px rgba(0, 0, 0, 0.06),
+    inset -2px -2px 7px rgba(0, 0, 0, 0.06);
+}
+
+.personil::before {
+  content: "Personil";
+  font-size: 20px;
+  position: absolute;
+  color: var(--white);
+  padding: 5px 50px;
+  left: 30px;
+  top: -20px;
+  font-weight: 500;
+  border-radius: 10px;
+  background-color: #dc3545;
+}
+
+/* input */
+.input-group {
+  position: relative;
+}
+
+.input {
+  /* border: none !important; */
+  border: solid 1.5px var(--colorInput) !important;
+  background: none;
+  font-size: 15px;
+  /* box-shadow: inset 2px 2px 5px  rgba(0, 0, 0, 0.070),
+              inset -1px -1px 5px  rgba(0, 0, 0, 0.070); */
+
+  color: var(--colorA);
+  transition: border 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.user-label {
+  position: absolute;
+  left: 15px;
+  color: var(--colorInput);
+  pointer-events: none;
+  font-size: 15px;
+  transition: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.input-group textarea {
+  min-height: 40px !important;
+  max-height: 155px !important;
+}
+.label-textarea {
+  top: 8px;
+}
+
+.input:focus,
+input:valid {
+  outline: none;
+  border: solid 1.5px var(--primaryA) !important;
+}
+
+.input:focus ~ label,
+input:valid ~ label,
+.validInput ~ label {
+  padding: 0px 10px !important;
+  transform: translateY(-85%) scale(0.8);
+  background-color: #F8F9FA;
+  padding: 0 0.2em;
+  color: var(--primaryA);
+}
+/* /input */
+
+.list-personil {
+  height: 100%;
+  overflow-y: scroll;
+}
+.list-personil::-webkit-scrollbar {
+  width: 10px;
+  padding-left: 10px;
+}
+.list-personil::-webkit-scrollbar-track {
+  background-color: rgba(211, 211, 211, 0.753);
+  border-radius: 20px;
+}
+.list-personil::-webkit-scrollbar-thumb {
+  background: #f89da6;
+  border-radius: 20px;
+}
+.list-personil li {
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 15px;
+  margin-right: 2px;
+  cursor: pointer;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.153);
+}
+
+.list-personil li:hover {
+  transition: ease .3s;
+  background-color: #dc3546a1;
+  color: var(--white);
+}
+.list-focus {
+  /* background-color: #0d6dfd82; */
+  background-color: #dc3546d5;
+  color: var(--white);
+} 
+.capture {
+  border: 2px dashed var(--colorInput);
+  height: 220px;
+  border-radius: 10px;
+}
+
+
+.capture{
+  color: var(--colorInput);
+}
+.capture svg {
+  width: 35px;
+  height: 35px;
+  font-size: 15px;
+}
+
+#showCapture{
+  z-index: 10;
+  display: flex;
+  top: 30% !important;
+  color: var(--colorInput);
+  font-size: 15px;
+  border-radius:6px;
+  cursor: pointer;
+  padding: 5px 20px;
+  top: 10px;
+  
+}
+
+#showCapture:hover svg, #showCapture:hover p{
+  transition: ease .3s;
+  color: #dc3545;
+}
+
+.captureButtonContainer{
+  display: none;
+}
+
+.containerLiImg div:last-child p{
+  margin-top: 10px;
+  cursor: pointer;
+  background-color: var(--primaryA);
+  color: var(--white);
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+
+
+/* ====== /personil ======= */
+
+.bin-teamplate {
+  list-style: none;
+  margin-top: 70px;
+  padding: 50px 30px 30px 30px;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.153);
+}
+.bin-teamplate::before {
+  content: "Pegawai Eksternal";
+  font-size: 20px;
+  position: absolute;
+  color: var(--white);
+  padding: 5px 30px;
+  left: 35px;
+  font-weight: 500;
+  top: -20px;
+  border-radius: 10px;
+  background-color: #dc3545;
+}
+.teamplate {
+  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: inset 2px 2px 7px rgba(0, 0, 0, 0.06),
+    inset -2px -2px 7px rgba(0, 0, 0, 0.06);
+}
+.add-karyawan p:first-child {
+  padding: 0px 8px;
+  cursor: pointer;
+  background-color: var(--primaryA);
+}
+
+.dropdown > button {
+  height: 40px;
+  color: var(--colorA);
+  padding-left: 10px;
+  font-size: 15px;
+  border-radius: 5px !important;
+  border: 1.5px solid var(--colorInput) !important;
+  transition: 0.3s all;
+}
+.dropdown > button:focus {
+  outline: none;
+  border: 1.5px solid var(--primaryA) !important;
+}
+.dropdown > button:hover {
+  background-color: var(--white);
+  color: var(--colorA);
+  border: 1.5px solid var(--primaryA) !important;
+}
+.dropdown-menu ul {
+  height: 300px;
+  overflow-y: scroll;
+}
+.dropdown-menu ul li {
+  margin: 10px 0px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.dropdown-menu input{
+  height: 35px !important;
+}
+.dropdown-menu ul li:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+.status {
+  display: flex;
+  flex-direction: column;
+  color: var(--colorA);
+  gap: 10px;
+  font-size: 15px;
+  height: 80px;
+}
+.status > select {
+  height: 35px;
+  padding: 0px 10px;
+  color: var(--colorA);
+  border-radius: 4px;
+  border: 1px solid var(--colorA);
+  transition: 0.3s all;
+}
+.status select:focus {
+  outline: none;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.215);
+}
+.no {
+  font-size: 12px;
+  width: 90px;
+  text-align: center;
+  padding: 4px 0px;
+  border-radius: 20px;
+  color: white;
+  background-color: var(--primaryA);
+}
+.status-no {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  /* padding: 0px 20px 0px 0px; */
+}
+.status-no svg {
+  background-color: rgba(255, 0, 0, 0.244);
+  width: 30px;
+  height: 30px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  border-radius: 20px;
+  transition: 0.3s all;
+  cursor: pointer;
+}
+
+.status-no svg:hover {
+  background-color: rgba(255, 0, 0, 0.544);
+}
+.submit {
+  font-weight: 700;
+  margin: auto;
+  padding: 8px 37px;
+  background-color: var(--primaryA);
+  color: white;
+  font-size: 18px;
+  border-radius: 5px;
+  border: 1px solid var(--primaryA);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+.submit:hover {
+  background-color: white;
+  color: var(--colorA);
+}
+.kode-akses span {
+  letter-spacing: 5px;
+  margin-left: 5px;
+}
+.line {
+  border-top: var(--colorA) dashed 2px;
+  padding-top: 30px;
+}
+/* responiseve */
+
+@media screen and (min-width: 1300px) {
+  section{
+    max-width: 1100px;
+  }
+}
