@@ -128,9 +128,30 @@
             responsive: true,
             select: true,
             dom: 'Bfrtip',
-            ajax: '/administrator/rekap-keperluan-user-dtss'
+            ajax: {
+                url: '/administrator/rekap-keperluan-user-dtss',
+                dataSrc: ''
+            },
+            columns: [
+                {data: "id"},
+                {
+                    data: "nama",
+                    render: function(data, type, row) {
+                    var names = '';
+                    if (row.nama && row.nama.length > 0) {
+                        row.nama.forEach(function(item) {
+                            names += item.nama + '<br>';
+                        });
+                    }
+                    return names;
+                    }
+                },
+                {data: "keperluan"},
+                {data: "mulai"},
+                {data: "selesai"},
+                {data: "durasi"}
+            ]
         });
-
     });
 </script>
 <!-- End Custom Script -->

@@ -58,6 +58,17 @@ class UserKeperluanModel extends Model
         return $this->where('DATE_FORMAT(waktu_selesai, "%Y")', $tahunIni)->findAll();
     }
 
+    public function ambilKeperluanUserLogin($keperluan_user_id) {
+        $data = $this->db->table('login')
+                ->select('login.nama_lengkap')
+                ->join('login_keperluan_user as lku', 'login.id = lku.user_id')
+                ->where('lku.keperluan_user_id', $keperluan_user_id)
+                ->get()
+                ->getResultArray();
+        
+        return $data;
+    }
+
     // Dates
     protected $useTimestamps = false; // jika true silahkan buka komentar atribut di bawah
     /* protected $dateFormat    = 'datetime';
