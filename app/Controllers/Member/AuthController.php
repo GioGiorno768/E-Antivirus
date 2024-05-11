@@ -35,6 +35,28 @@ class AuthController extends MasterController
         return view('fe/login');
     }
 
+    public function loginRev()
+    {
+        return view('fe/loginRev');
+    }
+
+    public function loginRev_list_user()
+    {
+        $users = $this->userModel->ambilAdminUsers();
+        $listUser = [];
+
+        foreach ($users as $user) {
+            $listUser[] = [
+                "id" => $user['id'],
+                "nama" => $user['nama_lengkap']
+            ];
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($listUser);
+        die();
+    }
+
     public function login_action()
     {
         $session = session();
