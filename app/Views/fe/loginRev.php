@@ -26,14 +26,14 @@
       crossorigin="anonymous"
     />
 
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="<?php echo base_url('css/style.css'); ?>" />
   </head>
   <style></style>
   <body>
     <main
       class="d-flex postion-relative justify-content-center align-items-center"
     > 
-      <img class="position-absolute" src="bg-pricing.jpg" alt="" />
+      <img class="position-absolute" src="<?php echo base_url('img/bg-pricing.jpg'); ?>" alt="" />
       <section>
         <div class="bg-light p-5 position-relative">
           <div
@@ -42,6 +42,7 @@
             <div class="bg-danger p-2 border border-0 rounded col-5 text-center">
               <b class="fs-5">e-ANTIVIRUS</b>
               <p class="mt-2">Elektronik Pencatatan Aktivitas Ruang Server</p>
+              <div id="respons"></div>
             </div>
           </div>
           <form action="POST" enctype="multipart/form-data">
@@ -186,7 +187,7 @@
        containerImg.innerHTML = ''
     })
 </script>
-  <script src="app.js"></script>
+  <script src="<?php echo base_url('js/app.js'); ?>"></script>
   <!-- <script>
     function teamplate(no) {
       return `

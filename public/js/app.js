@@ -101,24 +101,39 @@ function closeInput(remove) {
   });
 }
 
-const json = "./json-nama-daerah-indonesia/regions.json";
+// const json = "./json-nama-daerah-indonesia/regions.json";
+const json = "http://localhost:8080/loginRev-dtss";
 const listPersonil = document.querySelector(".list-personil");
-
 fetch(json)
-  .then((result) => result.json())
-  .then((response) => {
+// .then((result) => result.json())
+.then(response => {
     // const names = response[11].kota
-    const names = response.map((item) => item.kota).flat();
+    if (!response.ok) {
+      throw new Error("lol")
+    }
+    console.log(response);
+    return response.json()
+    // const names = response.map((item) => item.kota).flat();
 
-    names.forEach((name, index) => {
+    // names.forEach((name, index) => {
+    //   const listName = document.createElement("li");
+    //   listName.setAttribute("value", index);
+    //   listName.textContent = name;
+    //   listPersonil.appendChild(listName);
+    //   focusName(listName);
+    // });
+  })
+  .then(data => {
+    const names = data.map(item => ({ id: item.id, name: item.nama })).flat()
+    names.forEach((item) => {
       const listName = document.createElement("li");
-      listName.setAttribute("value", index);
-      listName.textContent = name;
+      listName.setAttribute("value", item.id);
+      listName.textContent = item.name;
       listPersonil.appendChild(listName);
       focusName(listName);
     });
   })
-  .catch((err) => {});
+  .catch((err) => {console.log(err)});
 
 const list = [];
 
@@ -169,9 +184,21 @@ if (searchInput) {
 }
 
 fetch(json)
-  .then((result) => result.json())
+  // .then((result) => result.json())
   .then((response) => {
-    names = response.map((item) => item.kota).flat();
+    if (!response.ok) {
+      throw new Error("lol")
+    }
+    console.log(response);
+    return response.json()
+    // names = response.map((item) => item.kota).flat();
+    // if (dropdown) {
+    //   renderList(names);
+    // }
+    // console.log(names);
+  })
+  .then(data => {
+    names = data.map((item) => item.nama).flat();
     if (dropdown) {
       renderList(names);
     }
