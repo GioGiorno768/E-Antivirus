@@ -230,6 +230,26 @@ class AdminController extends MasterController
     public function rekapkeperluanuser()
     {
         $data['title']   = 'Rekap Keperluan User';
+        // $Keperluan = $this->userKeperluanModel->ambilKeperluan();
+        // $content['keperluan'] = [];
+        // foreach ($Keperluan as $keperluan) {
+        //     $Users = $this->userKeperluanModel->ambilKeperluanUserLogin($keperluan['id']);
+        //     $nama = [];
+        //     foreach($Users as $user) {
+        //         $nama[] = [
+        //             "nama" => $user['nama_lengkap']
+        //         ];
+        //     }
+        //     $content['keperluan'][] = [
+        //         "id" => $keperluan['id'],
+        //         "nama" => $nama,
+        //         "keperluan" => $keperluan['keperluan'],
+        //         "mulai" => $keperluan['waktu_mulai'],
+        //         "selesai" => $keperluan['waktu_selesai'],
+        //         "durasi" => $keperluan["durasi"]
+
+        //     ];
+        // }
         $content['text'] = '<h4>Data Rekap Keperluan User</h4>';
         $content['desc'] = 'halo dari desc di Rekap Keperluan User';
         $data['contentString']   = view('be/content/rekap-keperluan-user/str-rekap-keperluan-user', $content);
@@ -250,8 +270,26 @@ class AdminController extends MasterController
 
     public function rekapkeperluanuser_datatable_ss() 
     {
-        $this->userKeperluanModel->table('keperluan_user')->select('keperluan_user.id, login.nama_lengkap,keperluan, waktu_mulai, waktu_selesai, durasi')
-        ->join('login', 'login.id = keperluan_user.user_id');
-        return DataTable::of($this->userKeperluanModel)->toJson();
+        $Keperluan = $this->userKeperluanModel->ambilKeperluan();
+        $keperluanList = [];
+        foreach ($Keperluan as $keperluan) {
+            $users = $this->userKeperluanModel->ambilKeperluanUserLogin($keperluan['id']);
+            $nama = [];
+            foreach($users as $user) {
+                $nama[] = [
+                    "nama" => $user['nama_lengkap']
+                ];
+            }
+            $keperluanList[] = [
+                "id" => $keperluan['id'],
+                "nama" => $nama,
+                "keperluan" => $keperluan['keperluan'],
+                "mulai" => $keperluan['waktu_mulai'],
+                "selesai" => $keperluan['waktu_selesai'],
+                "durasi" => $keperluan["durasi"]
+
+            ];
+        }
+        return json_encode($keperluanList);
     }
 }
