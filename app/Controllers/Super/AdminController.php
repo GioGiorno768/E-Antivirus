@@ -230,26 +230,6 @@ class AdminController extends MasterController
     public function rekapkeperluanuser()
     {
         $data['title']   = 'Rekap Keperluan User';
-        // $Keperluan = $this->userKeperluanModel->ambilKeperluan();
-        // $content['keperluan'] = [];
-        // foreach ($Keperluan as $keperluan) {
-        //     $Users = $this->userKeperluanModel->ambilKeperluanUserLogin($keperluan['id']);
-        //     $nama = [];
-        //     foreach($Users as $user) {
-        //         $nama[] = [
-        //             "nama" => $user['nama_lengkap']
-        //         ];
-        //     }
-        //     $content['keperluan'][] = [
-        //         "id" => $keperluan['id'],
-        //         "nama" => $nama,
-        //         "keperluan" => $keperluan['keperluan'],
-        //         "mulai" => $keperluan['waktu_mulai'],
-        //         "selesai" => $keperluan['waktu_selesai'],
-        //         "durasi" => $keperluan["durasi"]
-
-        //     ];
-        // }
         $content['text'] = '<h4>Data Rekap Keperluan User</h4>';
         $content['desc'] = 'halo dari desc di Rekap Keperluan User';
         $data['contentString']   = view('be/content/rekap-keperluan-user/str-rekap-keperluan-user', $content);
@@ -270,26 +250,16 @@ class AdminController extends MasterController
 
     public function rekapkeperluanuser_datatable_ss() 
     {
-        $Keperluan = $this->userKeperluanModel->ambilKeperluan();
-        $keperluanList = [];
-        foreach ($Keperluan as $keperluan) {
-            $users = $this->userKeperluanModel->ambilKeperluanUserLogin($keperluan['id']);
-            $nama = [];
-            foreach($users as $user) {
-                $nama[] = [
-                    "nama" => $user['nama_lengkap']
-                ];
+        $keperluan = $this->userKeperluanModel->select('id, keperluan, waktu_mulai, waktu_selesai, durasi');
+        return DataTable::of($keperluan)
+        ->add('nama_lengkap', function($row) {
+            $users = $this->userKeperluanModel->ambilKeperluanUserLogin($row->id);
+            $names = '';
+            foreach ($users as $user) {
+                $names .= $user['nama_lengkap'] . '<br>';
             }
-            $keperluanList[] = [
-                "id" => $keperluan['id'],
-                "nama" => $nama,
-                "keperluan" => $keperluan['keperluan'],
-                "mulai" => $keperluan['waktu_mulai'],
-                "selesai" => $keperluan['waktu_selesai'],
-                "durasi" => $keperluan["durasi"]
-
-            ];
-        }
-        return json_encode($keperluanList);
+            return $names;
+        }, 'first')
+        ->toJson();
     }
 }

@@ -45,8 +45,9 @@ $routes->group("administrator", ["filter" => "authadminfilter"], function($route
 // Auth Route user
 $routes->get('/login', 'Member\AuthController::login');
 $routes->get('/loginRev', 'Member\AuthController::loginRev');
-$routes->get('/loginRev-dtss', 'Member\AuthController::loginRev_list_user');
+$routes->get('/loginRev-fetch', 'Member\AuthController::loginRev_list_user');
 $routes->post('/login', 'Member\AuthController::login_action');
+$routes->post('/loginRev', 'Member\AuthController::login_actionRev');
 $routes->get('/logout', 'Member\AuthController::logout_action');
 
 
