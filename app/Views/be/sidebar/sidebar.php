@@ -48,12 +48,20 @@
         </li>
         <hr class="horizontal light mt-0 mb-2">
         <li class="nav-item">
-            <a class="nav-link text-white" href="<?= base_url('/admin/logout'); ?>">
-                <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                    <i class="material-icons opacity-10">logout</i>
-                </div>
-                <span class="nav-link-text ms-1">Keluar</span>
-            </a>
+          <a class="nav-link text-white <?= $segmentYgAktif[2]==="kode-akses" ? 'active bg-gradient-primary' : '' ?>" href="<?=base_url('administrator/kode-akses'); ?>">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">key</i>
+            </div>
+            <span class="nav-link-text ms-1">Kode Akses</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="<?= base_url('/admin/logout'); ?>">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">logout</i>
+            </div>
+            <span class="nav-link-text ms-1">Keluar</span>
+          </a>
         </li>
 
       </ul>

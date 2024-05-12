@@ -32,36 +32,36 @@
                         }
                     }
                 },
-                {
-                    text: 'Hapus',
-                    action: function() {
-                        let idArr = $.map(tableMasterAdmin.rows({
-                            selected: true
-                        }).data(), function(item) {
-                            return item[0]
-                        });
-                        let id = idArr[0];
+                // {
+                //     text: 'Hapus',
+                //     action: function() {
+                //         let idArr = $.map(tableMasterAdmin.rows({
+                //             selected: true
+                //         }).data(), function(item) {
+                //             return item[0]
+                //         });
+                //         let id = idArr[0];
 
-                        console.log(id);
-                        if (id == undefined) 
-                        {
-                            alert("Mohon pilih item yang akan dihapus!");
-                            return false;
+                //         console.log(id);
+                //         if (id == undefined) 
+                //         {
+                //             alert("Mohon pilih item yang akan dihapus!");
+                //             return false;
 
-                        }
-						/* protect Super Admin account */
-						else if (id == 1)
-                        {
-                            alert("Akun Super Admin tidak bisa dihapus!");
-                            return false;
+                //         }
+				// 		/* protect Super Admin account */
+				// 		else if (id == 1)
+                //         {
+                //             alert("Akun Super Admin tidak bisa dihapus!");
+                //             return false;
 
-                        }
-                        else
-                        {
-                            window.location.href = "<?= base_url() ?>administrator/master-admin/delete/" + id;
-                        }
-                    }
-                }
+                //         }
+                //         else
+                //         {
+                //             window.location.href = "<?= base_url() ?>administrator/master-admin/delete/" + id;
+                //         }
+                //     }
+                // }
             ],
             ajax: '/administrator/master-admin-dtss'
         });
