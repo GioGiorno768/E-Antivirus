@@ -8,11 +8,13 @@ use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use App\Models\Member\UserKeperluanModel;
 use App\Models\Member\UserModel;
+use App\Models\MasterOPDModel;
 
 class AuthController extends MasterController
 {
     protected $userModel;
     protected $userKeperluanModel;
+    protected $masterOPDModel;
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -21,6 +23,7 @@ class AuthController extends MasterController
 
         $this->userModel = new UserModel();
         $this->userKeperluanModel = new UserKeperluanModel();
+        $this->masterOPDModel = new MasterOPDModel();
 
         $this->hasLoggedIn();
     }
@@ -54,6 +57,23 @@ class AuthController extends MasterController
 
         header('Content-Type: application/json');
         echo json_encode($listUser);
+        die();
+    }
+
+    public function loginRev_list_opd()
+    {
+        $opd = $this->masterOPDModel->ambilOpd();
+        $listOpd = [];
+
+        foreach ($opd as $item) {
+            $listOpd[] = [
+                "id" => $item['id_opd'],
+                "nama_opd" => $item['nama_opd']
+            ];
+        }
+
+        header('Content-Type: application/json');
+        echo json_encode($listOpd);
         die();
     }
 
@@ -104,6 +124,22 @@ class AuthController extends MasterController
             $session->setFlashdata('msg', 'Akun anda tidak ditemukan.');
             return redirect()->to('/login');
         }
+    }
+
+    public function login_actionRev() {
+        $pegawai_internal = $this->request->getPost('pegawai_internal');
+        $pegawai_eksternal = $this->request->getPost('pegawai_eksternal');
+        $kode_akses = $this->request->getPost('kodeAkses');
+        $keperluan = $this->request->getPost('keperluan');
+        $lol = [
+            "in" => $pegawai_internal,
+            "eks" => $pegawai_eksternal,
+            "kode" => $kode_akses,
+            "perlu" => $keperluan
+
+        ];
+
+        print_r($lol);
     }
 
     public function logout_action()

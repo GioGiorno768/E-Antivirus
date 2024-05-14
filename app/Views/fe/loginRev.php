@@ -48,7 +48,7 @@
               <p class="mt-2">Elektronik Pencatatan Aktivitas Ruang Server</p>
             </div>
           </div>
-          <form action="POST" enctype="multipart/form-data">
+          <form action="<?= base_url('loginRev'); ?>" method="post" enctype="multipart/form-data">
             <div class="p-5 pt-5 personil mt-5 position-relative">
               <div class="inputNoRequire d-flex justify-content-arround align-items-center gap-3 ">
                 <input id="input-personil" type="text" name="text" autocomplete="off" class="border rounded col-12 p-2 ps-3" placeholder="Cari Personil">

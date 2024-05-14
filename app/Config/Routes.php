@@ -39,17 +39,19 @@ $routes->group("administrator", ["filter" => "authadminfilter"], function($route
     $routes->get('rekap-keperluan-user', 'Super\AdminController::rekapkeperluanuser');
     $routes->get('rekap-keperluan-user-dtss', 'Super\AdminController::rekapkeperluanuser_datatable_ss');
     $routes->get('rekap-keperluan-user/edit/(:num)', 'Super\AdminController::edit_rekapkeperluanuser/$1');
-    
+    $routes->get('kode-akses', 'Super\AdminController::kode_akses');
+    $routes->post('kode-akses/update', 'Super\AdminController::update_kode_akses');
 });
 
 // Auth Route user
 $routes->get('/login', 'Member\AuthController::login');
 $routes->get('/loginRev', 'Member\AuthController::loginRev');
-$routes->get('/loginRev/fetch-personil-internal', 'Member\AuthController::loginRev_list_user');
 $routes->post('/login', 'Member\AuthController::login_action');
 $routes->post('/loginRev', 'Member\AuthController::login_actionRev');
 $routes->get('/logout', 'Member\AuthController::logout_action');
 
+$routes->get('/loginRev/fetch-personil-internal', 'Member\AuthController::loginRev_list_user');
+$routes->get('/loginRev/fetch-opd', 'Member\AuthController::loginRev_list_opd');
 
 // Auth Route admin
 $routes->get('/admin/login', 'Super\AuthAdminController::login');

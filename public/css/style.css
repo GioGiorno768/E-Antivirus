@@ -44,12 +44,16 @@ section > div {
 }
 
 /* ====== personil ======= */
+#valuePersonil {
+  display: none;
+}
 .personil {
   border-radius: 10px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.153);
 }
 
-#inputWrong, .inputWrongOpd {
+#inputWrong,
+.inputWrongOpd {
   display: none;
 }
 .parent-list-personil {
@@ -60,6 +64,9 @@ section > div {
     inset -2px -2px 7px rgba(0, 0, 0, 0.06);
 }
 
+.input-value-personil {
+  display: none;
+}
 .personil::before {
   content: "Personil";
   font-size: 20px;
@@ -120,24 +127,24 @@ section > div {
 /* /input */
 
 /* input inputNoRequire */
-.inputNoRequire{
+.inputNoRequire {
   height: 40px;
   position: relative;
 }
 
-.inputNoRequire input{
+.inputNoRequire input {
   border: solid 1.5px var(--colorInput) !important;
   background: none !important;
   color: var(--colorA);
 }
-.inputNoRequire input:focus{
+.inputNoRequire input:focus {
   outline: none !important;
   border: solid 1.5px var(--primaryA) !important;
 }
-.inputNoRequire input::placeholder{
-  color:#88888892;
+.inputNoRequire input::placeholder {
+  color: #88888892;
 }
-.inputNoRequire svg{
+.inputNoRequire svg {
   color: var(--colorInput);
   width: 20px;
   height: 20px;
@@ -364,6 +371,11 @@ section > div {
 #show-opd {
   border: none !important;
   background: none !important;
+  cursor: pointer !important;
+}
+#show-opd:focus {
+  outline: none;
+  border: none;
 }
 .submit {
   font-weight: 700;

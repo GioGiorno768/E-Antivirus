@@ -5,17 +5,20 @@ namespace App\Controllers\Super;
 use App\Controllers\MasterController;
 use App\Models\Member\UserModel;
 use App\Models\Member\UserKeperluanModel;
+use App\Models\Super\KodeAksesModel;
 use \Hermawan\DataTables\DataTable;
 
 class AdminController extends MasterController
 {
     protected $userModel;
     protected $userKeperluanModel;
+    protected $kodeAksesModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->userKeperluanModel = new UserKeperluanModel();
+        $this->kodeAksesModel = new KodeAksesModel();
     }
 
     public function index()
@@ -261,5 +264,42 @@ class AdminController extends MasterController
             return $names;
         }, 'first')
         ->toJson();
+    }
+
+    public function kode_akses() {
+        $kode = $this->kodeAksesModel->ambilKodeAkses();
+
+        $data['title']   = 'Kode Akses';
+        $content['text'] = '<h4>Edit Kode Akses</h4>';
+        $content['desc'] = 'Edit Kode Akses';
+        
+        $content['kode_akses'] = $kode['kode'];
+
+        $data['contentString']   = view('be/content/kode-akses/str-kode-akses', $content);
+
+        return view('be/template', $data);
+    }
+
+    public function update_kode_akses() {
+        $kode = $this->kodeAksesModel->ambilKodeAkses();
+        $inputKodeLama = $this->request->getPost('inputKodeLama');
+        $inputKodeBaru = $this->request->getPost('inputKodeBaru');
+
+        $data = [
+            'kode' => $inputKodeBaru, 
+        ];
+
+        if(!empty($inputKodeLama) && !empty($inputKodeBaru)) {
+            $db_kode = $kode['kode'];
+            $verify_password = password_verify($inputKodeLama, $db_kode);
+            if ($verify_password) { 
+                $data['kode'] = password_hash($inputKodeBaru, PASSWORD_DEFAULT);
+                $this->kodeAksesModel->update(1, $data);
+                session()->setFlashdata('msg', 'Kode Akses telah diperbarui!');
+            } else {
+                session()->setFlashdata('msg', 'Kode Akses lama tidak sesuai!');
+            }
+        }
+        return redirect()->to(base_url('administrator/kode-akses'));
     }
 }

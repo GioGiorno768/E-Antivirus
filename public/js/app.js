@@ -7,12 +7,13 @@ function addKaryawan(no) {
     </svg>
   </div>
   <div class="input-group d-flex align-items-center mt-5 mb-3">
-    <input id="inputNamePegawai${no}" required="" type="text" name="text" autocomplete="off" class="input border rounded col-12 p-2">
-    <label class="user-label">Nama</label>
+    <input id="inputNamePegawai${no}" name="pegawai_eksternal[${no}][nama]" required="" type="text" name="text" autocomplete="off" class="input border rounded col-12 p-2">
+    <label class="user-label" >Nama</label>
   </div>
   <div class="btn-group dropdown col-12">
     <button class="btn bg-light d-flex justify-content-between" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-      <input id="show-opd" class="display-opd${no}" placeholder="Opd" disabled>
+      <input id="show-opd${no}" class="valueOpd col-12" name="pegawai_eksternal[${no}][opd]" placeholder="Opd" type="hidden" readonly="true">
+      <span class="display-opd${no}">Opd</span>
       <span class="dropdown-toggle"></span>
     </button>
     <div class="dropdown-list${no} dropdown-menu p-4 dropdown-menu-center bg-light col-12">
@@ -28,9 +29,17 @@ function addKaryawan(no) {
 `;
 }
 
+// function inputValuePersonil(no){
+//   return `
+//       <!-- <input id="valuePersonil" value="0" class="valuePersonil" name="internal[${no}]" type="hidden" readonly="true"> -->
+//   `
+// }
+
 // ============ fungsi add personil ==============
 const listPersonil = document.querySelector(".list-personil");
 const inputPersonil = document.getElementById("input-personil");
+// const valuePersonil = document.querySelector(".valuePersonil");
+const submitForm = document.querySelector(".submit");
 
 let selectedItems = [];
 let names = [];
@@ -40,8 +49,13 @@ function displayNames(searchTerm) {
   listPersonil.innerHTML = "";
 
   // list name
-  searchTerm.forEach(function (item) {
+  searchTerm.forEach(function (item, index) {
     const li = document.createElement("li");
+    const inputValuePersonil = document.createElement("input");
+    inputValuePersonil.setAttribute("name", `pegawai_internal[${index}]`);
+    inputValuePersonil.setAttribute("value", item.id);
+    inputValuePersonil.setAttribute("class", "input-value-personil");
+    inputValuePersonil.setAttribute("disabled", true);
     li.setAttribute("value", item.id);
     li.textContent = item.name;
 
@@ -49,14 +63,19 @@ function displayNames(searchTerm) {
       li.classList.add("list-focus");
     }
 
-    li.addEventListener("click", function () {
+    li.addEventListener("click", function (event) {
       this.classList.toggle("list-focus");
 
+      var inputElement = event.currentTarget.querySelector("input");
+      inputElement.disabled = !inputElement.disabled;
+
       // list value personil
-      listIndexPersonil.push(this.value);
+      // listIndexPersonil.push(this.value);
 
       if (selectedItems.includes(item.id)) {
-        selectedItems = selectedItems.filter((selectedItem) => selectedItem !== item.id);
+        selectedItems = selectedItems.filter(
+          (selectedItem) => selectedItem !== item.id
+        );
         console.log(selectedItems);
       } else {
         selectedItems.push(item.id);
@@ -64,12 +83,13 @@ function displayNames(searchTerm) {
     });
 
     listPersonil.appendChild(li);
+    li.appendChild(inputValuePersonil);
   });
 }
 
 const displayWrong = document.getElementById("inputWrong");
 function filterNamesPersonil(search) {
-  const filteredNames = names.filter(function(item) {
+  const filteredNames = names.filter(function (item) {
     return item.name.toLowerCase().includes(search.toLowerCase());
   });
   if (filteredNames == "") {
@@ -128,14 +148,15 @@ buttonAddInput.addEventListener("click", () => {
   const dropdown = document.querySelector(`.dropdown-list${no} ul`);
   const searchInput = document.querySelector(`.input-opd${no}`);
   const spanOpd = document.querySelector(`.display-opd${no}`);
+  const valueOpd = document.getElementById(`show-opd${no}`);
   const displayWrongOpd = document.getElementById(`inputWrongOpd${no}`);
 
   searchInput.addEventListener("input", (event) => {
     const searchTerm = event.target.value;
-    filterOpd(dropdown, searchTerm, spanOpd, displayWrongOpd);
+    filterOpd(dropdown, searchTerm, spanOpd, displayWrongOpd, valueOpd);
   });
 
-  fetchOpd(dropdown, spanOpd);
+  fetchOpd(dropdown, spanOpd, valueOpd);
   const removeInput = document.querySelectorAll(".close");
   closeInput(removeInput);
   no++;
@@ -143,22 +164,24 @@ buttonAddInput.addEventListener("click", () => {
 // ============ end fungsi add pegawai eksternal ==============
 
 // rubah sesuai kebutuhan
-const jsonOpd = "./json-nama-daerah-indonesia/regions.json";
+const jsonOpd = "http://localhost:8080/loginRev/fetch-opd";
 
 // ============ fungsi search Opd ==============
-function fetchOpd(dropdown, spanOpd) {
+function fetchOpd(dropdown, spanOpd, valueOpd) {
   fetch(jsonOpd)
     .then((result) => result.json())
     .then((response) => {
-      listOpd = response.map((item) => item.kota).flat();
-      renderList(dropdown, listOpd, spanOpd);
+      listOpd = response
+        .map((item) => ({ id: item.id, nama: item.nama_opd }))
+        .flat();
+      renderList(dropdown, listOpd, spanOpd, valueOpd);
     })
     .catch((err) => {});
 }
 
-function filterOpd(dropdown, searchTerm, spanOpd, inputWrong) {
-  const filteredNames = listOpd.filter((name) =>
-    name.toLowerCase().includes(searchTerm.toLowerCase())
+function filterOpd(dropdown, searchTerm, spanOpd, inputWrong, valueOpd) {
+  const filteredNames = listOpd.filter((item) =>
+    item.nama.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   if (filteredNames == "") {
@@ -167,7 +190,7 @@ function filterOpd(dropdown, searchTerm, spanOpd, inputWrong) {
     inputWrong.style.display = "none";
   }
 
-  renderList(dropdown, filteredNames, spanOpd);
+  renderList(dropdown, filteredNames, spanOpd, valueOpd);
 }
 
 function closeInput(remove) {
@@ -186,22 +209,28 @@ function closeInput(remove) {
 
 function updateEmployeNumber() {}
 
-function renderList(dropdown, filteredNames, spanOpd) {
+function renderList(dropdown, filteredNames, spanOpd, valueOpd) {
   dropdown.innerHTML = "";
 
-  filteredNames.forEach((name, index) => {
+  filteredNames.forEach((item) => {
     const listName = document.createElement("li");
-    listName.setAttribute("value", index);
-    listName.textContent = name;
+    // listName.setAttribute("value", item.id);
+    listName.textContent = item.nama;
     dropdown.appendChild(listName);
 
     listName.addEventListener("click", () => {
       // DATA LIKE OPD
-      spanOpd.value = listName.textContent;
-      console.log(spanOpd.value);
+      valueOpd.value = item.id;
+      spanOpd.textContent = listName.textContent;
+      console.log(valueOpd.value);
     });
   });
 }
+
+// const submit = document.querySelector(".submit")
+// submit.addEventListener("click", () => {
+
+// })
 // ============ end fungsi search Opd ==============
 
 // ============ fungsi take camera ==============
@@ -271,3 +300,21 @@ textarea.addEventListener("input", function () {
     this.classList.remove("validInput");
   }
 });
+
+async function formData(data) {
+  const response = await fetch("http://localhost:8080/loginRev", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      idInternal: data,
+    }),
+  });
+  try {
+    const responseJson = await response.json();
+    return responseJson;
+  } catch (error) {
+    throw new Error("Terjadi kesalahan saat memproses data.");
+  }
+}
