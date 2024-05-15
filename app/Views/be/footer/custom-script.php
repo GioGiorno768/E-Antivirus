@@ -131,11 +131,20 @@
             ajax: '/administrator/rekap-keperluan-user-dtss',
             columns: [
                 {data: 1},
+                {
+                    data: 2,
+                    render: function (data, type, row, meta) {
+                        var baseUrl = "<?php echo base_url('img/keperluan/'); ?>";
+                        return '<img src="' + baseUrl + data + '" class="img-fluid" alt="Responsive image">';
+                        // return baseUrl + data
+                    }
+                },
                 {data: 0},
-                {data: 2},
+                {data: 7},
                 {data: 3},
                 {data: 4},
-                {data: 5}
+                {data: 5},
+                {data: 6},
             ]
         });
     });

@@ -14,6 +14,7 @@ class UserKeperluanModel extends Model
     protected $protectFields    = true;
     protected $allowedFields    = [
         'id',
+        'foto',
         'user_id',
         'keperluan',
         'waktu_mulai',
@@ -69,6 +70,10 @@ class UserKeperluanModel extends Model
         return $data;
     }
 
+    public function ambilKeperluanTerkini() {
+        return $this->orderBy('id', 'DESC')->first();       
+    }
+
     // Dates
     protected $useTimestamps = false; // jika true silahkan buka komentar atribut di bawah
     /* protected $dateFormat    = 'datetime';
@@ -93,13 +98,13 @@ class UserKeperluanModel extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function get_user_with_keperluan($id)
+    public function get_user_eksternal_with_keperluan($id)
     {
         $data = $this->db->table('keperluan_user')
-            ->join('login', 'login.id = keperluan_user.user_id')
+            ->join('personil_eksternal', 'personil_eksternal.keperluan_user_id = keperluan_user.id')
             ->where('keperluan_user.id', $id)
             ->get()
-            ->getRow();
+            ->getResultArray();
 
         return $data;
     }

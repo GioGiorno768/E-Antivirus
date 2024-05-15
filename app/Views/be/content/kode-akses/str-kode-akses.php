@@ -3,10 +3,6 @@
         <?= $text ?>
     </div>
 
-    <div class="card-footer p-3">
-        Kode Akses Saat Ini: <?= $kode_akses ?>
-    </div>
-
         <div class="container mt-3">
             <form action="<?= base_url('administrator/kode-akses/update') ?>" method="post">
             <? csrf_field() ?>

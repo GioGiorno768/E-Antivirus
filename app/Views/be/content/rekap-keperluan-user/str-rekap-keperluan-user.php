@@ -8,7 +8,9 @@
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nama Lengkap</th>
+                    <th>Foto</th>
+                    <th>Personil</th>
+                    <th>OPD Eksternal</th>
                     <th>Keperluan</th>
                     <th>Waktu Mulai</th>
                     <th>Waktu Selesai</th>

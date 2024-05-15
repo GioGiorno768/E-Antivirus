@@ -9,12 +9,18 @@ use Psr\Log\LoggerInterface;
 use App\Models\Member\UserKeperluanModel;
 use App\Models\Member\UserModel;
 use App\Models\MasterOPDModel;
+use App\Models\Super\KodeAksesModel;
+use App\Models\OPDEksternalModel;
+use App\Models\Member\PersonilTerpilihModel;
 
 class AuthController extends MasterController
 {
     protected $userModel;
     protected $userKeperluanModel;
     protected $masterOPDModel;
+    protected $kodeAksesModel;
+    protected $personilEksternalModel;
+    protected $personilTerpilihModel;
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -24,6 +30,9 @@ class AuthController extends MasterController
         $this->userModel = new UserModel();
         $this->userKeperluanModel = new UserKeperluanModel();
         $this->masterOPDModel = new MasterOPDModel();
+        $this->kodeAksesModel = new KodeAksesModel();
+        $this->personilEksternalModel = new OPDEksternalModel();
+        $this->personilTerpilihModel = new PersonilTerpilihModel();
 
         $this->hasLoggedIn();
     }
@@ -127,19 +136,86 @@ class AuthController extends MasterController
     }
 
     public function login_actionRev() {
+        $session = session();
+
+        $foto = $this->request->getFile('fotoKeperluan');
         $pegawai_internal = $this->request->getPost('pegawai_internal');
         $pegawai_eksternal = $this->request->getPost('pegawai_eksternal');
         $kode_akses = $this->request->getPost('kodeAkses');
         $keperluan = $this->request->getPost('keperluan');
-        $lol = [
-            "in" => $pegawai_internal,
-            "eks" => $pegawai_eksternal,
-            "kode" => $kode_akses,
-            "perlu" => $keperluan
 
-        ];
+        $kode = $this->kodeAksesModel->ambilKodeAkses();
+        $verify_password = password_verify($kode_akses, $kode['kode']);
+        if ($verify_password) {
+            $allowedMimeTypes = ['image/png', 'image/jpeg'];
+            if ($foto->isValid() && !$foto->hasMoved()) {
+                $mimeType = $foto->getMimeType();
+                if (in_array($mimeType, $allowedMimeTypes)) {
+                    $nama_foto = $foto->getRandomName();
+                    $foto->move(ROOTPATH . 'public/img/keperluan', $nama_foto);
+                } else {
+                    $session->setFlashdata('msg', 'Gambar harus berupa file PNG atau JPG.');
+                    return redirect()->to('/login');
+                }
+            } else {
+                $session->setFlashdata('msg', 'Gambar tidak valid.');
+                return redirect()->to('/login');
+            }
 
-        print_r($lol);
+            $data_keperluan = [
+                'foto' => $nama_foto,
+                'keperluan' => $keperluan,
+                'waktu_mulai' => date('Y-m-d H:i:s'),
+                'durasi' => 1,
+            ];
+
+            $this->userKeperluanModel->insert($data_keperluan);
+    
+            $keperluanTerkini = $this->userKeperluanModel->ambilKeperluanTerkini();
+
+            if(isset($pegawai_internal)) {
+                foreach ($pegawai_internal as $pegawai) {
+                    $login_keperluan_user[] = [
+                        'user_id' => $pegawai,
+                        'keperluan_user_id' => $keperluanTerkini['id']
+                    ];
+                }
+                $this->personilTerpilihModel->insertBatch($login_keperluan_user);
+            } else {
+                $session->setFlashdata('msg', 'Pegawai internal harus ada.');
+                return redirect()->to('/login');
+            }
+            
+            if(isset($pegawai_eksternal)) {
+                foreach ($pegawai_eksternal as $pegawai) {
+                    $personil_eksternal[] = [
+                        'nama' => $pegawai['nama'],
+                        'opd_id' => $pegawai['opd'],
+                        'keperluan_user_id' => $keperluanTerkini['id']
+                    ];
+                }
+                $this->personilEksternalModel->insertBatch($personil_eksternal);
+            }
+            
+            $personil_internal = $this->userKeperluanModel->ambilKeperluanUserLogin($keperluanTerkini['id']);
+            $keperluan_session = [
+                'id_keperluan' => $keperluanTerkini['id'],
+                'login_time' => $keperluanTerkini['waktu_mulai'],
+                'keperluan' => $keperluanTerkini['keperluan'],
+                'personil' => [
+                    'internal' => $personil_internal, 
+                    'eksternal' => isset($pegawai_eksternal) ? $personil_eksternal : null
+                ],
+                'isLoginUser' => true
+            ];
+            $session->set($keperluan_session);
+    
+            return redirect()->to('/dashboard');
+        } else {
+            $session->setFlashdata('msg', 'Kode Akses Ditolak');
+            return redirect()->to('/login');
+        }
+
     }
 
     public function logout_action()

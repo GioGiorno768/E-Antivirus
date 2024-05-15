@@ -50,6 +50,7 @@ $routes->post('/login', 'Member\AuthController::login_action');
 $routes->post('/loginRev', 'Member\AuthController::login_actionRev');
 $routes->get('/logout', 'Member\AuthController::logout_action');
 
+// Fetch data
 $routes->get('/loginRev/fetch-personil-internal', 'Member\AuthController::loginRev_list_user');
 $routes->get('/loginRev/fetch-opd', 'Member\AuthController::loginRev_list_opd');
 

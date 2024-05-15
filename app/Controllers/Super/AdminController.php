@@ -12,13 +12,13 @@ class AdminController extends MasterController
 {
     protected $userModel;
     protected $userKeperluanModel;
-    protected $kodeAksesModel;
+    protected $kodeAksesModelModel;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->userKeperluanModel = new UserKeperluanModel();
-        $this->kodeAksesModel = new KodeAksesModel();
+        $this->kodeAksesModelModel = new KodeAksesModel();
     }
 
     public function index()
@@ -253,7 +253,9 @@ class AdminController extends MasterController
 
     public function rekapkeperluanuser_datatable_ss() 
     {
-        $keperluan = $this->userKeperluanModel->select('id, keperluan, waktu_mulai, waktu_selesai, durasi');
+        $keperluan = $this->userKeperluanModel->select('id, foto, keperluan, waktu_mulai, waktu_selesai, durasi');
+
+
         return DataTable::of($keperluan)
         ->add('nama_lengkap', function($row) {
             $users = $this->userKeperluanModel->ambilKeperluanUserLogin($row->id);
@@ -263,11 +265,19 @@ class AdminController extends MasterController
             }
             return $names;
         }, 'first')
+        ->add('opd_eksternal', function($row) {
+            $users = $this->userKeperluanModel->get_user_eksternal_with_keperluan($row->id);
+            $names = '';
+            foreach ($users as $user) {
+                $names .= $user['nama'] . '<br>';
+            }
+            return $names;
+        }, 'last')
         ->toJson();
     }
 
     public function kode_akses() {
-        $kode = $this->kodeAksesModel->ambilKodeAkses();
+        $kode = $this->kodeAksesModelModel->ambilKodeAkses();
 
         $data['title']   = 'Kode Akses';
         $content['text'] = '<h4>Edit Kode Akses</h4>';
@@ -281,7 +291,7 @@ class AdminController extends MasterController
     }
 
     public function update_kode_akses() {
-        $kode = $this->kodeAksesModel->ambilKodeAkses();
+        $kode = $this->kodeAksesModelModel->ambilKodeAkses();
         $inputKodeLama = $this->request->getPost('inputKodeLama');
         $inputKodeBaru = $this->request->getPost('inputKodeBaru');
 
@@ -294,7 +304,7 @@ class AdminController extends MasterController
             $verify_password = password_verify($inputKodeLama, $db_kode);
             if ($verify_password) { 
                 $data['kode'] = password_hash($inputKodeBaru, PASSWORD_DEFAULT);
-                $this->kodeAksesModel->update(1, $data);
+                $this->kodeAksesModelModel->update(1, $data);
                 session()->setFlashdata('msg', 'Kode Akses telah diperbarui!');
             } else {
                 session()->setFlashdata('msg', 'Kode Akses lama tidak sesuai!');
