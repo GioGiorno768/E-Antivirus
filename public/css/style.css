@@ -26,13 +26,17 @@ main > img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: grayscale(.6) saturate(1.2);
 }
 section {
   width: 80%;
   height: 50%;
+  
 }
 section > div {
   border-radius: 10px;
+  margin-top: 100px;
+  margin-bottom: 50px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.355);
 }
 .title {
@@ -77,8 +81,18 @@ section > div {
   top: -20px;
   font-weight: 500;
   border-radius: 10px;
-  background-color: #dc3545;
+  background-color: #dd1b5c;
 }
+
+#valueCapture{
+  display: none;
+}
+
+.titles {
+  background-color: #dd1b5c;
+}
+
+
 
 /* input */
 .input-group {
@@ -192,6 +206,8 @@ section > div {
   border-radius: 10px;
 }
 
+
+
 .capture {
   color: var(--colorInput);
 }
@@ -199,6 +215,10 @@ section > div {
   width: 35px;
   height: 35px;
   font-size: 15px;
+}
+
+.pink {
+  background-color: #dd1b5c;
 }
 
 #showCapture {
@@ -253,7 +273,7 @@ section > div {
   font-weight: 500;
   top: -20px;
   border-radius: 10px;
-  background-color: #dc3545;
+  background-color: #dd1b5c;
 }
 .teamplate {
   margin-bottom: 30px;
@@ -264,7 +284,7 @@ section > div {
 .add-karyawan p:first-child {
   padding: 0px 8px;
   cursor: pointer;
-  background-color: var(--primaryA);
+  background-color: #dd1b5c;
 }
 
 .dropdown > button {
@@ -341,7 +361,6 @@ section > div {
   padding: 4px 0px;
   border-radius: 20px;
   color: white;
-  background-color: var(--primaryA);
 }
 .status-no {
   display: flex;
@@ -381,7 +400,7 @@ section > div {
   font-weight: 700;
   margin: auto;
   padding: 8px 37px;
-  background-color: var(--primaryA);
+  background-color: #dd1b5c;
   color: white;
   font-size: 18px;
   border-radius: 5px;
@@ -406,5 +425,41 @@ section > div {
 @media screen and (min-width: 1300px) {
   section {
     max-width: 1100px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  #capture,#captureBaru {
+    font-size: 10px;
+  }
+
+
+
+  
+}
+
+@media screen and (max-width: 850px) {
+  .titles {
+    width: 240px;
+  }
+
+  .personil {
+    padding: 0 20px;
+  }
+
+  .titles p {
+    font-size: 9px;
+  }
+  #capture,#captureBaru {
+    font-size: 9px;
+  }
+
+  .user-label {
+    font-size: 13px;
+    
+  }
+
+  .bin-teamplate::before {
+    font-size: 15px;
   }
 }

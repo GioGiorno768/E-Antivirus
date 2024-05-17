@@ -41,6 +41,8 @@ $routes->group("administrator", ["filter" => "authadminfilter"], function($route
     $routes->get('rekap-keperluan-user/edit/(:num)', 'Super\AdminController::edit_rekapkeperluanuser/$1');
     $routes->get('kode-akses', 'Super\AdminController::kode_akses');
     $routes->post('kode-akses/update', 'Super\AdminController::update_kode_akses');
+    $routes->get('kegiatan-pegawai-eksternal', 'Super\AdminController::kegiatan_pegawai_eksternal');
+    $routes->get('kegiatan-pegawai-eksternal-dtss', 'Super\AdminController::kegiatanPegawaiEksternal_datatable_ss');
 });
 
 // Auth Route user

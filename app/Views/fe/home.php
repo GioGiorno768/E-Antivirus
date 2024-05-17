@@ -106,7 +106,7 @@
                 </li>
               </ul>
             </li>
-            <li class="nav-item d-flex align-items-center">
+            <li class="nav-item d-flex align-items-center d-none ">
               <a href="javascript:void(0);" class="nav-link text-body font-weight-bold px-0">
                 <i class="fa fa-key me-sm-1"></i>
                 <span class="d-sm-inline fixed-plugin-button">Change Password</span>
@@ -136,19 +136,19 @@
                     <?php endif; ?>
                     <div class="card mt-4">
                       <div class="card-body p-3 pb-0">
-                        <h5 class="mb-0 text-center">Hai, <?php 
-                        $personil = session()->get('personil');
-                        if (isset($personil['internal'])) {
-                            foreach ($personil['internal'] as $person) {
-                                echo $person['nama_lengkap'] . ", ";
-                            }
-                        }
-                        if (isset($personil['eksternal'])) {
-                            foreach ($personil['eksternal'] as $person) {
-                                echo $person['nama'] . ", ";
-                            }
-                        }
-                        ?>!</h5>
+                        <!-- <h5 class="mb-0 text-center">Hai, <?php 
+                        // $personil = session()->get('personil');
+                        // if (isset($personil['internal'])) {
+                        //     foreach ($personil['internal'] as $person) {
+                        //         echo $person['nama_lengkap'] . ", ";
+                        //     }
+                        // }
+                        // if (isset($personil['eksternal'])) {
+                        //     foreach ($personil['eksternal'] as $person) {
+                        //         echo $person['nama'] . ", ";
+                        //     }
+                        // }
+                        ?>!</h5> -->
                         <h5 class="mb-0 text-center">Selamat Datang di Ruang Server<br>Dinas Kominfo Kabupaten Kediri</h5>
                       </div>
                       <div id="wrapper-datetime" class="row mb-5"> 

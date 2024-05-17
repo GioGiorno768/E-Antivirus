@@ -1,19 +1,19 @@
 function addKaryawan(no) {
   return `
   <div class="status-no">
-    <div class="no">Karyawan ${no}</div>
-    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="close bi bi-x p-1" viewBox="0 0 16 16">
+    <div class="no pink">Pegawai ${no}</div>
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="pink close bi bi-x p-1" viewBox="0 0 16 16">
       <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
     </svg>
   </div>
   <div class="input-group d-flex align-items-center mt-5 mb-3">
-    <input id="inputNamePegawai${no}" name="pegawai_eksternal[${no}][nama]" required="" type="text" name="text" autocomplete="off" class="input border rounded col-12 p-2">
+    <input id="inputNamePegawai${no}" name="pegawai_eksternal[${no}][nama]" required type="text" name="text" autocomplete="off" class="input border rounded col-12 p-2">
     <label class="user-label" >Nama</label>
   </div>
   <div class="btn-group dropdown col-12">
     <button class="btn bg-light d-flex justify-content-between" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-      <input id="show-opd${no}" class="valueOpd col-12" name="pegawai_eksternal[${no}][opd]" placeholder="Opd" type="hidden" readonly="true">
-      <span class="display-opd${no}">Opd</span>
+      <input id="show-opd${no}" class="valueOpd col-12" required name="pegawai_eksternal[${no}][opd]" placeholder="Opd" type="hidden" readonly="true">
+      <span class="display-opd${no}">OPD</span>
       <span class="dropdown-toggle"></span>
     </button>
     <div class="dropdown-list${no} dropdown-menu p-4 dropdown-menu-center bg-light col-12">
@@ -41,14 +41,27 @@ const inputPersonil = document.getElementById("input-personil");
 // const valuePersonil = document.querySelector(".valuePersonil");
 const submitForm = document.querySelector(".submit");
 
+submitForm.addEventListener('click', ()=>{
+
+})
+
 let selectedItems = [];
 let names = [];
 let listIndexPersonil = [];
 
 function displayNames(searchTerm) {
   listPersonil.innerHTML = "";
-
+  
   // list name
+  console.log(searchTerm);
+  if(selectedItems.length) {
+    selectedItems.forEach(function(item) {
+      if(!searchTerm.includes(item))
+        searchTerm.push(item);
+      
+    })
+    console.log(searchTerm)
+  }
   searchTerm.forEach(function (item, index) {
     const li = document.createElement("li");
     const inputValuePersonil = document.createElement("input");
@@ -59,12 +72,16 @@ function displayNames(searchTerm) {
     li.setAttribute("value", item.id);
     li.textContent = item.name;
 
-    if (selectedItems.includes(item.id)) {
+    if (selectedItems.includes(item)) {
       li.classList.add("list-focus");
+      inputValuePersonil.removeAttribute("disabled");
     }
+  
 
     li.addEventListener("click", function (event) {
       this.classList.toggle("list-focus");
+
+      console.log('lol');
 
       var inputElement = event.currentTarget.querySelector("input");
       inputElement.disabled = !inputElement.disabled;
@@ -72,13 +89,16 @@ function displayNames(searchTerm) {
       // list value personil
       // listIndexPersonil.push(this.value);
 
-      if (selectedItems.includes(item.id)) {
+      if (selectedItems.includes(item)) {
         selectedItems = selectedItems.filter(
-          (selectedItem) => selectedItem !== item.id
-        );
+          (selectedItem) => selectedItem !== item
+      );
+
+        
+      // inputValuePersonil.removeAttribute("disabled");
         console.log(selectedItems);
       } else {
-        selectedItems.push(item.id);
+        selectedItems.push(item);
       }
     });
 
@@ -86,6 +106,7 @@ function displayNames(searchTerm) {
     li.appendChild(inputValuePersonil);
   });
 }
+
 
 const displayWrong = document.getElementById("inputWrong");
 function filterNamesPersonil(search) {
@@ -207,7 +228,6 @@ function closeInput(remove) {
   });
 }
 
-function updateEmployeNumber() {}
 
 function renderList(dropdown, filteredNames, spanOpd, valueOpd) {
   dropdown.innerHTML = "";
@@ -262,6 +282,9 @@ showCapture.addEventListener("click", function () {
     });
 });
 
+// let valueCapture = document.getElementById("valueCapture");
+const fileInput = document.getElementById('valueCapture');
+
 captureButton.addEventListener("click", () => {
   video.style.display = "none";
   containerImg.innerHTML = "";
@@ -272,14 +295,62 @@ captureButton.addEventListener("click", () => {
 
   // DATA DARI GAMBAR
   const imgUrl = canvas.toDataURL("image/png");
-  console.log(imgUrl);
+  // olahGambar(imgUrl);
+  // Convert Blob to File
+  const blob = dataURLToBlob(imgUrl);
+  const file = new File([blob], 'image.png', {type: 'image/png'});
 
+  // Create a DataTransfer object to simulate a file input event
+  const dataTransfer = new DataTransfer();
+  dataTransfer.items.add(file);
+  fileInput.files = dataTransfer.files;
+  console.log(fileInput.files);
+
+  
   // -------
 
   const imgElement = new Image();
   imgElement.src = imgUrl;
   containerImg.appendChild(imgElement);
 });
+
+
+            // Convert dataURL to Blob
+            function dataURLToBlob(dataURL) {
+                const binaryString = atob(dataURL.split(',')[1]);
+                const array = [];
+                for (let i = 0; i < binaryString.length; i++) {
+                    array.push(binaryString.charCodeAt(i));
+                }
+                return new Blob([new Uint8Array(array)], {type: 'image/png'});
+            }
+
+            
+
+// function olahGambar(img){
+//   fetch(img)
+//   .then(res => res.blob())
+//   .then(blob => {
+//     // Buat file dari Blob
+//     const file = new File([blob], 'capture.png', { type: 'image/png' });
+
+//     // Simpan file dalam elemen input type file
+//     const dataTransfer = new DataTransfer();
+//     dataTransfer.items.add(file);
+//     valueCapture.files = dataTransfer.files;
+
+//     // Tampilkan gambar
+//     const imgElement = new Image();
+//     imgElement.src = imgUrl;
+//     console.log(imgElement)
+
+    
+//     // containerImg.appendChild(imgElement);
+//   })
+//   .catch(err => console.error('Error converting image to Blob: ', err));
+// }
+
+
 captureBaru.addEventListener("click", function () {
   video.style.display = "block";
   containerImg.innerHTML = "";

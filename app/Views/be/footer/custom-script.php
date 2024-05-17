@@ -121,7 +121,18 @@
             ],
             ajax: '/administrator/master-user-dtss'
         });
+        function formatDateTime(dateTimeStr) {
+            // Pisahkan tanggal dan waktu
+            let [date, time] = dateTimeStr.split(' ');
 
+            // Pisahkan tahun, bulan, dan hari
+            let [year, month, day] = date.split('-');
+
+            // Gabungkan kembali dengan format yang diinginkan
+            let formattedDateTime = `${day}-${month}-${year} ${time}`;
+
+            return formattedDateTime;
+        }
         var tableKeperluanUser = $('#table-rekapkeperluanuser').DataTable({
             processing: true,
             serverSide: true,
@@ -142,11 +153,66 @@
                 {data: 0},
                 {data: 7},
                 {data: 3},
-                {data: 4},
-                {data: 5},
-                {data: 6},
-            ]
+                {
+                    data: 4,
+                    
+                    render:function (data, type, row, meta) {
+                        return formatDateTime(data);
+                    }
+                },
+                {
+                    data: 5,
+                    render:function (data) {
+                        return formatDateTime(data);
+                    }
+                },
+                {
+                    data: 6,
+                    render: function (data, type, row, meta) {
+                        let jam = Math.floor(data / 3600);
+                        let menit = Math.floor((data / 60) % 60);
+                        let sisaDetik = data % 60;
+
+                        let hasil = [];
+
+                        if (jam > 0) {
+                            hasil.push(jam + ' jam');
+                        }
+                        if (menit > 0) {
+                            hasil.push(menit + ' menit');
+                        }
+                        if (sisaDetik > 0 || hasil.length === 0) {
+                            hasil.push(sisaDetik + ' detik');
+                        }
+
+                        return hasil.join(' ');
+                    }},
+            ],
+            buttons: [
+                {
+                    extend: 'excel', 
+                    exportOptions: {
+                        modifier: {
+                            page: 'all'
+                        }
+                    }
+                }
+            ],
+        });
+
+        var tablePegawaiEksternal = $('#table-rekapPegawaiEksternal').DataTable({
+            processing: true,
+            serverSide: true,
+            responsive: true,
+            select: true,
+            dom: 'Bfrtip',
+            buttons: [],
+            ajax: '/administrator/kegiatan-pegawai-eksternal-dtss',
         });
     });
 </script>
+
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
 <!-- End Custom Script -->

@@ -21,6 +21,7 @@ class AuthController extends MasterController
     protected $kodeAksesModel;
     protected $personilEksternalModel;
     protected $personilTerpilihModel;
+    
 
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
@@ -39,13 +40,22 @@ class AuthController extends MasterController
 
     public function index()
     {
-        return view('fe/login');
+        return view('fe/loginRev');
     }
 
     public function login()
     {
-        return view('fe/login');
+        return view('fe/loginRev');
     }
+    // public function index()
+    // {
+    //     return view('fe/login');
+    // }
+
+    // public function login()
+    // {
+    //     return view('fe/login');
+    // }
 
     public function loginRev()
     {
@@ -169,11 +179,10 @@ class AuthController extends MasterController
                 'durasi' => 1,
             ];
 
-            $this->userKeperluanModel->insert($data_keperluan);
-    
-            $keperluanTerkini = $this->userKeperluanModel->ambilKeperluanTerkini();
-
+            
             if(isset($pegawai_internal)) {
+                $this->userKeperluanModel->insert($data_keperluan);
+                $keperluanTerkini = $this->userKeperluanModel->ambilKeperluanTerkini();
                 foreach ($pegawai_internal as $pegawai) {
                     $login_keperluan_user[] = [
                         'user_id' => $pegawai,
@@ -229,11 +238,28 @@ class AuthController extends MasterController
         $timestamp_selesai  = strtotime($waktu_selesai); // satuannya sekon / detik
 
         $selisih_detik = $timestamp_selesai - $timestamp_mulai;
-        #$durasi_format = gmdate('H:i:s', $selisih_detik); // ini cara menggunakan durasi yg tersimpan di database
+        // $durasi_format = gmdate('H:i:s', $selisih_detik); // ini cara menggunakan durasi yg tersimpan di database
+        $jam = floor($selisih_detik / 3600);
+        $menit = floor(($selisih_detik / 60) % 60);
+        $sisaDetik = $selisih_detik % 60;
+    
+        // $hasil = [];
+    
+        // if ($jam > 0) {
+        //     $hasil[] = $jam . ' jam';
+        // }
+        // if ($menit > 0) {
+        //     $hasil[] = $menit . ' menit';
+        // }
+        // if ($sisaDetik > 0 || empty($hasil)) {
+        //     $hasil[] = $sisaDetik . ' detik';
+        // }
 
+        // $durasi_format =  $jam;
+        // print_r($durasi_format);
         $dataToUpdate = [
             'waktu_selesai' => date("Y-m-d H:i:s"),
-            'durasi'    => $selisih_detik,
+            'durasi'    => $selisih_detik
         ];
 
         $this->userKeperluanModel->update($id_keperluan, $dataToUpdate);
@@ -242,4 +268,24 @@ class AuthController extends MasterController
         session()->setFlashdata('success-logout', 'Anda telah keluar ruang server!');
         return redirect()->to('/login');
     }
+
+    // public function formatJam($detik) {
+    //     $jam = floor($detik / 3600);
+    //     $menit = floor(($detik / 60) % 60);
+    //     $sisaDetik = $detik % 60;
+    
+    //     $hasil = [];
+    
+    //     if ($jam > 0) {
+    //         $hasil[] = $jam . ' jam';
+    //     }
+    //     if ($menit > 0) {
+    //         $hasil[] = $menit . ' menit';
+    //     }
+    //     if ($sisaDetik > 0 || empty($hasil)) {
+    //         $hasil[] = $sisaDetik . ' detik';
+    //     }
+    
+    //     return implode(' ', $hasil);
+    // }
 }

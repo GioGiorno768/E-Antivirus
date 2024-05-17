@@ -39,6 +39,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link text-white <?= $segmentYgAktif[2]==="kegiatan-pegawai-eksternal" ? 'active bg-gradient-primary' : '' ?>" href="<?=base_url('administrator/kegiatan-pegawai-eksternal'); ?>">
+            <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">group</i>
+            </div>
+            <span class="nav-link-text ms-1">Kegiatan Pegawai Eksternal</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link text-white <?= $segmentYgAktif[2]==="rekap-keperluan-user" ? 'active bg-gradient-primary' : '' ?>" href="<?=base_url('administrator/rekap-keperluan-user'); ?>">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">view_in_ar</i>

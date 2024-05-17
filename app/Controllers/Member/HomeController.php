@@ -8,8 +8,12 @@ class HomeController extends MasterController
 {
     public function index()
     {
-        return view('fe/login');
+        return view('fe/loginRev');
     }
+    // public function index()
+    // {
+    //     return view('fe/login');
+    // }
 
     public function dashboard()
     {

@@ -35,21 +35,29 @@
   <style></style>
   <body>
     <main
-      class="d-flex postion-relative justify-content-center align-items-center"
+      class="d-flex postion-relative justify-content-center"
     > 
-      <img class="position-absolute" src="<?php echo base_url('img/bg-pricing.jpg'); ?>" alt="" />
+      <img class="position-absolute" src="<?php echo base_url('img/backgorund.jpg'); ?>" alt="" />
       <section>
-        <div class="bg-light p-5 position-relative">
+        <div class="container-fluid bg-light px-sm-5 py-5 position-relative ">
           <div
             class="title col-12 position-absolute d-flex justify-content-center align-items-center m-auto"
           >
-            <div class="bg-danger p-2 border border-0 rounded col-5 text-center">
+            <div class="titles p-2 border border-0 rounded col-5 text-center">
               <b class="fs-5">e-ANTIVIRUS</b>
               <p class="mt-2">Elektronik Pencatatan Aktivitas Ruang Server</p>
             </div>
           </div>
           <form action="<?= base_url('loginRev'); ?>" method="post" enctype="multipart/form-data">
-            <div class="p-5 pt-5 personil mt-5 position-relative">
+          <?php if (session()->getFlashdata('msg')) : ?>
+            <div class="alert mt-5 alert-success alert-dismissible bg-danger text-white fade show  " role="alert">                          
+              <?= session()->getFlashdata('msg') ?>
+              <button type="button" class="btn-close text-light btn-close-white   " data-bs-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true"></span>
+              </button>
+            </div>
+          <?php endif; ?> 
+            <div class="personil p-sm-5 py-5 personil mt-5 position-relative">
               <div class="inputNoRequire d-flex justify-content-arround align-items-center gap-3 ">
                 <input id="input-personil" type="text" name="text" autocomplete="off" class="border rounded col-12 p-2 ps-3" placeholder="Cari Personil">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
@@ -75,7 +83,7 @@
                   </div>
                 </li>
                 <li class="containerLiImg overflow-hidden">
-                  <!-- <div class="capture position-relative d-flex overflow-hidden justify-content-center align-items-center">
+                  <div class="capture position-relative d-flex overflow-hidden justify-content-center align-items-center">
                     <div id="showCapture" class=" position-absolute flex-column justify-content-center align-items-center">
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
                         <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4z"/>
@@ -88,16 +96,16 @@
                     <span id="containerImg"></span>
                     <canvas id="canvas" class="" style="display:none;"></canvas>
                   </div>
-                  <div class="captureButtonContainer col-12 gap-2 align-items-center justify-content-center">
-                    <p id="capture">Capture</p>
-                    <p id="captureBaru">Perbarui</p>
-                  </div> -->
-                  <input type="file" name="fotoKeperluan" size="20" />
+                  <div class="captureButtonContainer col-12 gap-sm-2 align-items-center justify-content-center">
+                    <p id="capture" class="pink rounded-2 py-1 px-1 py-sm-2 px-sm-3 text-light m-sm-2 m-1">Capture</p>
+                    <p id="captureBaru" class="pink rounded-2 py-1 px-1  py-sm-2 px-sm-3 text-light m-sm-2 m-1">Perbarui</p>
+                  </div>
+                  <input type="file" id="valueCapture" name="fotoKeperluan" size="20" />
                 </li>
               </ul>
             </div>
             <div class="karyawan-eksternal mt-3">
-              <ul class="list-unstyled bin-teamplate ps-5 pe-5">
+              <ul class="list-unstyled bin-teamplate py-5 px-3  p-sm-5">
                 <div class="ms-1 add-karyawan d-flex align-items-center gap-2">
                   <p
                     id="add-input"
@@ -116,6 +124,21 @@
             </div>
           </form>
         </div>
+        <footer class="my-5  w-100 ">
+          <div class="container"> 
+                <div class="row align-items-center justify-content-lg-center justify-content-sm-center ">
+                    <div class="col-12 col-md-6 my-auto">
+                        <div class="copyright text-center text-sm text-white">
+                            © <script>
+                                document.write(new Date().getFullYear())
+                            </script>
+                            —
+                            <span class="font-weight-bold text-center text-white">Dinas Komunikasi dan Informatika Kabupaten Kediri</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
       </section>
     </main>
   </body>

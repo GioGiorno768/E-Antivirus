@@ -14,7 +14,7 @@
  * --------------------------------------------------------------------
  * CodeIgniter command-line tools
  * --------------------------------------------------------------------
- * The main entry point into the CLI system and allows you to run
+ * The ntry point into the CLI system and allows you to run
  * commands and perform maintenance on your application.
  *
  * Because CodeIgniter can handle CLI requests as just another web request
@@ -102,3 +102,5 @@ $console->showHeader($suppress);
 $exit = $console->run();
 
 exit(is_int($exit) ? $exit : EXIT_SUCCESS);
+
+?>

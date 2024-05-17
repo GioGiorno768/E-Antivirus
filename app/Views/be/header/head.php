@@ -20,5 +20,6 @@
   <link href="<?= base_url('stessa/assets/plugins/DataTables/Responsive-2.5.0/css/responsive.dataTables.min.css'); ?>" rel="stylesheet">
   <link href="<?= base_url('stessa/assets/plugins/DataTables/Select/select.dataTables.min.css'); ?>" rel="stylesheet">
   <link href="<?= base_url('stessa/assets/plugins/DataTables/Buttons/buttons.dataTables.min.css'); ?>" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
 </head>
 <!-- End Head -->

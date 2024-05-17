@@ -6,6 +6,7 @@ use App\Controllers\MasterController;
 use App\Models\Member\UserModel;
 use App\Models\Member\UserKeperluanModel;
 use App\Models\Super\KodeAksesModel;
+use App\Models\OPDEksternalModel;
 use \Hermawan\DataTables\DataTable;
 
 class AdminController extends MasterController
@@ -13,12 +14,16 @@ class AdminController extends MasterController
     protected $userModel;
     protected $userKeperluanModel;
     protected $kodeAksesModelModel;
+    protected $pegawaiEksternalModel;
+
 
     public function __construct()
     {
         $this->userModel = new UserModel();
         $this->userKeperluanModel = new UserKeperluanModel();
         $this->kodeAksesModelModel = new KodeAksesModel();
+        $this->pegawaiEksternalModel = new OPDEksternalModel();
+        
     }
 
     public function index()
@@ -277,13 +282,10 @@ class AdminController extends MasterController
     }
 
     public function kode_akses() {
-        $kode = $this->kodeAksesModelModel->ambilKodeAkses();
 
         $data['title']   = 'Kode Akses';
         $content['text'] = '<h4>Edit Kode Akses</h4>';
         $content['desc'] = 'Edit Kode Akses';
-        
-        $content['kode_akses'] = $kode['kode'];
 
         $data['contentString']   = view('be/content/kode-akses/str-kode-akses', $content);
 
@@ -312,4 +314,43 @@ class AdminController extends MasterController
         }
         return redirect()->to(base_url('administrator/kode-akses'));
     }
+
+    public function kegiatan_pegawai_eksternal() {
+
+        $data['title']   = 'Rekap Kegiatan Pegawai Eksternal';
+        $content['text'] = '<h4>Rekeperluan Kegiatan Eksternal</h4>';
+        $content['desc'] = 'Rekeperluan Kegiatan Eksternal';
+
+        $data['contentString']   = view('be/content/rekap-pegawai-eksternal/str-kegiatan-pegawai-eksternal', $content);
+
+        return view('be/template', $data);
+    }
+
+    public function kegiatanPegawaiEksternal_datatable_ss() 
+    {
+        $pegawaiEksternal = $this->pegawaiEksternalModel->select('id, nama, opd_id, keperluan_user_id');
+
+
+        return DataTable::of($pegawaiEksternal)
+        ->edit('opd_id', function($row) {
+            $opd = $this->pegawaiEksternalModel->ambilOPD($row->opd_id);
+            $names = '';
+            foreach ($opd as $user) {
+                $names .= $user['nama_opd'];
+                break;
+            }
+            return $names;
+        })
+        ->edit('keperluan_user_id', function($row) {
+            $waktu = $this->pegawaiEksternalModel->ambilWaktuBertugas($row->keperluan_user_id);
+            $names = '';
+            foreach ($waktu as $user) {
+                $names .= $user['waktu_selesai'];
+                break;
+            }
+            return $names;
+        })
+        ->toJson();
+    }
+
 }
