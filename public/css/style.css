@@ -183,7 +183,7 @@ section > div {
 .list-personil li {
   border-radius: 20px;
   padding: 10px 20px;
-  height: 40px;
+  /* height: 40px; */
   font-size: 15px;
   margin-right: 2px;
   cursor: pointer;
@@ -433,12 +433,14 @@ section > div {
     font-size: 10px;
   }
 
-
+  .titles p {
+    font-size: 13px;
+  }
 
   
 }
 
-@media screen and (max-width: 850px) {
+@media screen and (max-width: 580px) {
   .titles {
     width: 240px;
   }
@@ -461,5 +463,11 @@ section > div {
 
   .bin-teamplate::before {
     font-size: 15px;
+  }
+
+  .list-personil li {
+    font-size: 13px;
+    padding: 5px 15px;
+    line-height: 30px;
   }
 }
