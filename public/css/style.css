@@ -437,10 +437,18 @@ section > div {
     font-size: 13px;
   }
 
-  
+  #showCapture p {
+    font-size: 12px;
+    text-align: center;
+  }
 }
 
 @media screen and (max-width: 580px) {
+  #showCapture p {
+    text-align: center;
+    font-size: 10px;
+  }
+
   .titles {
     width: 240px;
   }
