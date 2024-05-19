@@ -38,6 +38,7 @@
       class="d-flex postion-relative justify-content-center"
     > 
       <img class="position-absolute" src="<?php echo base_url('img/backgorund.jpg'); ?>" alt="" />
+      <span class="mask bg-dark opacity-25  w-100 h-100  position-absolute "></span>
       <section>
         <div class="container-fluid bg-light px-sm-5 py-5 position-relative ">
           <div
@@ -74,7 +75,7 @@
               <ul class="list-unstyled col-12 mt-4 d-flex gap-3 pe-3">
                 <li class="col-6">
                   <div class="input-group d-flex align-items-center">
-                    <input id="kodeAkses" required="" type="text" name="kodeAkses" autocomplete="off" class="input border rounded col-12 p-2">
+                    <input id="kodeAkses" required="" type="password" name="kodeAkses" autocomplete="off" class="input border rounded col-12 p-2">
                     <label class="user-label">Kode Akses</label>
                   </div>
                   <div class="input-group d-flex mt-4 align-items-center">

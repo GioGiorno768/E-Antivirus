@@ -22,10 +22,10 @@
                         <input type="text" class="form-control bg-light" id="inputUsername" name="inputUsername" placeholder="Masukkan Username" value="<?= $username ?>" required>
                     </div> 
                     <div class="mb-3">
-                    <label for="inputPassword" class="form-label">Password</label>
+                    <!-- <label for="inputPassword" class="form-label">Password</label>
                     <div class="col-sm-4">
                         <input type="password" class="form-control bg-light" id="inputPassword" name="inputPassword" placeholder="Masukkan Password">
-                    </div>    
+                    </div>     -->
                 </div>   
                 </div>
                 <div class="mb-3">

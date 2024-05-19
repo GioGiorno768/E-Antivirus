@@ -8,10 +8,15 @@
   <script src="<?= base_url('stessa/assets/js/plugins/chartjs.min.js'); ?>"></script>
   <!--   DataTables JS Files   -->
   <script src="<?= base_url('stessa/assets/plugins/DataTables/DataTables-1.13.8/js/jquery.dataTables.min.js'); ?>"></script>
+  <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
   <script src="<?= base_url('stessa/assets/plugins/DataTables/Responsive-2.5.0/js/dataTables.responsive.min.js'); ?>"></script>
   <script src="<?= base_url('stessa/assets/plugins/DataTables/Select/dataTables.select.min.js'); ?>"></script>
   <script src="<?= base_url('stessa/assets/plugins/DataTables/Buttons/dataTables.buttons.min.js'); ?>"></script>
 
+
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

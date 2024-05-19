@@ -12,7 +12,7 @@ function addKaryawan(no) {
   </div>
   <div class="btn-group dropdown col-12">
     <button class="btn bg-light d-flex justify-content-between" type="button" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-      <input id="show-opd${no}" class="valueOpd col-12" required name="pegawai_eksternal[${no}][opd]" placeholder="Opd" type="hidden" readonly="true">
+      <input id="show-opd${no}" class="d-none valueOpd col-12" required name="pegawai_eksternal[${no}][opd]" placeholder="Opd">
       <span class="display-opd${no}">OPD</span>
       <span class="dropdown-toggle"></span>
     </button>
@@ -41,9 +41,9 @@ const inputPersonil = document.getElementById("input-personil");
 // const valuePersonil = document.querySelector(".valuePersonil");
 const submitForm = document.querySelector(".submit");
 
-submitForm.addEventListener('click', ()=>{
-
-})
+// submitForm.addEventListener('click', ()=>{
+  
+// })
 
 let selectedItems = [];
 let names = [];
@@ -172,6 +172,8 @@ buttonAddInput.addEventListener("click", () => {
   const valueOpd = document.getElementById(`show-opd${no}`);
   const displayWrongOpd = document.getElementById(`inputWrongOpd${no}`);
 
+  coba(valueOpd)
+
   searchInput.addEventListener("input", (event) => {
     const searchTerm = event.target.value;
     filterOpd(dropdown, searchTerm, spanOpd, displayWrongOpd, valueOpd);
@@ -182,6 +184,19 @@ buttonAddInput.addEventListener("click", () => {
   closeInput(removeInput);
   no++;
 });
+function coba(valueOpd){
+  const submit = document.querySelector('.submit');
+
+  submit.addEventListener('click',()=>{
+    if(!valueOpd.value){
+      Swal.fire({
+        icon: "warning",
+        title: "Oops...",
+        text: "Mohon Isi List Opd",
+      });
+    }
+  })
+}
 // ============ end fungsi add pegawai eksternal ==============
 
 // rubah sesuai kebutuhan
@@ -237,7 +252,7 @@ function renderList(dropdown, filteredNames, spanOpd, valueOpd) {
     // listName.setAttribute("value", item.id);
     listName.textContent = item.nama;
     dropdown.appendChild(listName);
-
+    
     listName.addEventListener("click", () => {
       // DATA LIKE OPD
       valueOpd.value = item.id;

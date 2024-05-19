@@ -147,15 +147,13 @@
                     render: function (data, type, row, meta) {
                         var baseUrl = "<?php echo base_url('img/keperluan/'); ?>";
                         return '<img src="' + baseUrl + data + '" class="img-fluid" alt="Responsive image">';
-                        // return baseUrl + data
                     }
                 },
-                {data: 0},
+                {data: 0, searchable: true},
                 {data: 7},
                 {data: 3},
                 {
                     data: 4,
-                    
                     render:function (data, type, row, meta) {
                         return formatDateTime(data);
                     }
@@ -186,19 +184,32 @@
                         }
 
                         return hasil.join(' ');
-                    }},
-            ],
-            buttons: [
-                {
-                    extend: 'excel', 
-                    exportOptions: {
-                        modifier: {
-                            page: 'all'
-                        }
                     }
                 }
             ],
+            scrollY: '50vh', // Menyesuaikan tinggi scroll vertikal sesuai kebutuhan Anda
+            scrollCollapse: true,
+            paging: false, // Menonaktifkan pagination
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'csv',
+                    text: 'Export CSV',
+                    exportOptions: {
+                        columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
+                    }
+                },
+                {
+                    extend: 'excel',
+                    text: 'Export Excel',
+                    exportOptions: {
+                        columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
+                    }
+                },
+            ],
+            
         });
+
 
         var tablePegawaiEksternal = $('#table-rekapPegawaiEksternal').DataTable({
             processing: true,
@@ -212,7 +223,5 @@
     });
 </script>
 
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/dataTables.buttons.min.js"></script> 
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/buttons/1.3.1/js/buttons.html5.min.js"></script>
+
 <!-- End Custom Script -->

@@ -41,12 +41,12 @@
                                     <input type="text" class="form-control bg-light" id="inputUsername" name="username" placeholder="Masukkan Username" required>
                                 </div>
                             </div>
-                            <div class="mb-3 row">
+                            <!-- <div class="mb-3 row">
                                 <label for="inputPassword" class="col-sm-4 col-form-label">Password</label>
                                 <div class="col-sm-8">
                                     <input type="password" class="form-control bg-light" id="inputPassword" name="password" placeholder="Masukkan Password" required>
                                 </div>
-                            </div>    
+                            </div>     -->
                             <input type="text" name="is_admin" value="0" hidden>
                     </div>
                     <div class="modal-footer">

@@ -4,7 +4,7 @@
     </div>
 
     <div class="card-footer p-3">
-        <table id="table-rekapkeperluanuser" class="display" style="width:100%">
+        <table id="table-rekapkeperluanuser" class="display nowrap" style="width:100%">
             <thead>
                 <tr>
                     <th>ID</th>

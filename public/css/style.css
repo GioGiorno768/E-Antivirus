@@ -28,6 +28,10 @@ main > img {
   object-fit: cover;
   filter: grayscale(.6) saturate(1.2);
 }
+
+.mask {
+  z-index: -5;
+}
 section {
   width: 80%;
   height: 50%;

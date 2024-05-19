@@ -266,7 +266,7 @@ class AdminController extends MasterController
             $users = $this->userKeperluanModel->ambilKeperluanUserLogin($row->id);
             $names = '';
             foreach ($users as $user) {
-                $names .= $user['nama_lengkap'] . '<br>';
+                $names .= '- ' . $user['nama_lengkap'] . '<br>';
             }
             return $names;
         }, 'first')
@@ -274,7 +274,7 @@ class AdminController extends MasterController
             $users = $this->userKeperluanModel->get_user_eksternal_with_keperluan($row->id);
             $names = '';
             foreach ($users as $user) {
-                $names .= $user['nama'] . '<br>';
+                $names .= '- ' . $user['nama'] . '<br>';
             }
             return $names;
         }, 'last')
