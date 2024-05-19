@@ -32,6 +32,7 @@
   <?php echo view ('be/footer/footer-script'); ?>
   <?php echo view('be/footer/custom-script'); ?>
 
+  
 </body>
 
 </html>

@@ -223,7 +223,7 @@ class AdminController extends MasterController
 
      public function prosesDelete($id)
     {
-        $this->userKeperluanModel->where('user_id', $id)->delete();
+        $this->userKeperluanModel->where('id', $id)->delete();
         $this->userModel->delete($id);
         session()->setFlashdata('msg', 'Data Master User telah dihapus!');
         return redirect()->to(base_url('administrator/master-user'));

@@ -25,7 +25,8 @@
                 <div class="mb-3">
                     <label for="inputPassword" class="form-label">Password</label>
                     <div class="col-sm-4">
-                        <input type="password" class="form-control bg-light" id="inputPassword" name="inputPassword" placeholder="Masukkan Password">
+                        <input type="password" class="Password form-control bg-light" id="inputPassword" name="inputPassword" placeholder="Masukkan Password">
+                        <input type="checkbox" onclick="myFunction()"> Show Password 
                     </div>    
                 </div>
                 <div class="mb-3">
@@ -35,3 +36,14 @@
         </div>     
     </div>
 </div>
+
+<script>
+    function myFunction() {
+        const pass = document.querySelector(".Password");
+        if (pass.type === "password") {
+            pass.type = "text";
+        } else {
+            pass.type = "password";
+        }
+    } 
+</script>

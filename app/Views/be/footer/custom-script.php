@@ -206,6 +206,7 @@
                         columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
                     }
                 },
+                
             ],
             
         });
