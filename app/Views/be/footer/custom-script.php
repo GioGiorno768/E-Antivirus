@@ -145,7 +145,24 @@
                     data: 2,
                     render: function (data, type, row, meta) {
                         var baseUrl = "<?php echo base_url('img/keperluan/'); ?>";
-                        return '<img src="' + baseUrl + data + '" class="img-fluid" alt="Responsive image">';
+                        return `
+
+                        <img src="${baseUrl}${data}" alt="Sample Image" class="img-fluid img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal${row[1]}">
+                        
+                        <div class="modal fade" id="imageModal${row[1]}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <img src="${baseUrl}${data}" alt="Sample Image" class="img-fluid">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
                     }
                 },
                 {data: 0},
