@@ -56,6 +56,10 @@ $routes->get('/logout', 'Member\AuthController::logout_action');
 $routes->get('/loginRev/fetch-personil-internal', 'Member\AuthController::loginRev_list_user');
 $routes->get('/loginRev/fetch-opd', 'Member\AuthController::loginRev_list_opd');
 
+// export pdf
+$routes->get('/show-export-pdf', 'ExportPDFController::index');
+$routes->get('/export-pdf-keperluan', 'ExportPDFController::export_keperluan_user');
+
 // Auth Route admin
 $routes->get('/admin/login', 'Super\AuthAdminController::login');
 $routes->post('/admin/login', 'Super\AuthAdminController::login_action');

@@ -237,6 +237,16 @@ class AdminController extends MasterController
 
     public function rekapkeperluanuser()
     {
+        // $keperluan = $this->userKeperluanModel->select('keperluan_user.id, keperluan_user.foto, keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, keperluan_user.durasi, 
+        // GROUP_CONCAT(DISTINCT login.nama_lengkap SEPARATOR " | ") as users, 
+        // GROUP_CONCAT(DISTINCT personil_eksternal.nama SEPARATOR " | ") as eksternal')
+        // ->join('login_keperluan_user', 'keperluan_user.id = login_keperluan_user.keperluan_user_id')
+        // ->join('login', 'login_keperluan_user.user_id = login.id')
+        // ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
+        // ->groupBy('keperluan_user.id')
+        // ->get()
+        // ->getResultArray();
+        // dd($keperluan);
         $data['title']   = 'Rekap Keperluan User';
         $content['text'] = '<h4>Data Rekap Keperluan User</h4>';
         $content['desc'] = 'halo dari desc di Rekap Keperluan User';
@@ -258,11 +268,19 @@ class AdminController extends MasterController
 
     public function rekapkeperluanuser_datatable_ss() 
     {
-        $keperluan = $this->userKeperluanModel->select('id, foto, keperluan, waktu_mulai, waktu_selesai, durasi');
+        // $keperluan = $this->userKeperluanModel->select('id, foto, keperluan, waktu_mulai, waktu_selesai, durasi');
+
+        $keperluan = $this->userKeperluanModel->select('login.nama_lengkap, 
+        keperluan_user.id, keperluan_user.foto, keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, 
+        keperluan_user.durasi, personil_eksternal.nama')
+        ->join('login_keperluan_user', 'keperluan_user.id = login_keperluan_user.keperluan_user_id')
+        ->join('login', 'login_keperluan_user.user_id = login.id')
+        ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
+        ->groupBy('keperluan_user.id');
 
 
         return DataTable::of($keperluan)
-        ->add('nama_lengkap', function($row) {
+        ->add('nama_lengkapC', function($row) {
             $users = $this->userKeperluanModel->ambilKeperluanUserLogin($row->id);
             $names = '';
             foreach ($users as $user) {
@@ -278,6 +296,9 @@ class AdminController extends MasterController
             }
             return $names;
         }, 'last')
+        ->setSearchableColumns(['nama_lengkap', 'nama', 'keperluan', 'waktu_mulai', 'waktu_selesai'])
+        ->hide('nama_lengkap')
+        ->hide('nama')
         ->toJson();
     }
 
@@ -316,6 +337,12 @@ class AdminController extends MasterController
     }
 
     public function kegiatan_pegawai_eksternal() {
+        // $pegawaiEksternal = $this->pegawaiEksternalModel->select('personil_eksternal.id, personil_eksternal.nama, mo.nama_opd, ku.waktu_mulai')
+        // ->join('master_opd as mo', 'personil_eksternal.opd_id = mo.id_opd')
+        // ->join('keperluan_user as ku', 'personil_eksternal.keperluan_user_id = ku.id')
+        // ->get()
+        // ->getResultArray();
+        // dd($pegawaiEksternal);
 
         $data['title']   = 'Rekap Kegiatan Pegawai Eksternal';
         $content['text'] = '<h4>Rekeperluan Kegiatan Eksternal</h4>';
@@ -328,28 +355,30 @@ class AdminController extends MasterController
 
     public function kegiatanPegawaiEksternal_datatable_ss() 
     {
-        $pegawaiEksternal = $this->pegawaiEksternalModel->select('id, nama, opd_id, keperluan_user_id');
+        $pegawaiEksternal = $this->pegawaiEksternalModel->select('personil_eksternal.id, personil_eksternal.nama, mo.nama_opd, ku.waktu_selesai')
+        ->join('master_opd as mo', 'personil_eksternal.opd_id = mo.id_opd')
+        ->join('keperluan_user as ku', 'personil_eksternal.keperluan_user_id = ku.id');
 
 
         return DataTable::of($pegawaiEksternal)
-        ->edit('opd_id', function($row) {
-            $opd = $this->pegawaiEksternalModel->ambilOPD($row->opd_id);
-            $names = '';
-            foreach ($opd as $user) {
-                $names .= $user['nama_opd'];
-                break;
-            }
-            return $names;
-        })
-        ->edit('keperluan_user_id', function($row) {
-            $waktu = $this->pegawaiEksternalModel->ambilWaktuBertugas($row->keperluan_user_id);
-            $names = '';
-            foreach ($waktu as $user) {
-                $names .= $user['waktu_selesai'];
-                break;
-            }
-            return $names;
-        })
+        // ->add('nama_opdC', function($row) {
+        //     $opd = $this->pegawaiEksternalModel->ambilOPD($row->opd_id);
+        //     $names = '';
+        //     foreach ($opd as $user) {
+        //         $names .= $user['nama_opd'];
+        //         break;
+        //     }
+        //     return $names;
+        // }, 'first')
+        // ->add('waktu_selesai', function($row) {
+        //     $waktu = $this->pegawaiEksternalModel->ambilWaktuBertugas($row->keperluan_user_id);
+        //     $names = '';
+        //     foreach ($waktu as $user) {
+        //         $names .= $user['waktu_selesai'];
+        //         break;
+        //     }
+        //     return $names;
+        // }, 'last')
         ->toJson();
     }
 

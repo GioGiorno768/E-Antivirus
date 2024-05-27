@@ -137,7 +137,6 @@
             processing: true,
             serverSide: true,
             responsive: true,
-            select: true,
             dom: 'Bfrtip',
             ajax: '/administrator/rekap-keperluan-user-dtss',
             columns: [
@@ -149,7 +148,7 @@
                         return '<img src="' + baseUrl + data + '" class="img-fluid" alt="Responsive image">';
                     }
                 },
-                {data: 0, searchable: true},
+                {data: 0},
                 {data: 7},
                 {data: 3},
                 {
@@ -187,26 +186,33 @@
                     }
                 }
             ],
-            scrollY: '50vh', // Menyesuaikan tinggi scroll vertikal sesuai kebutuhan Anda
-            scrollCollapse: true,
-            paging: false, // Menonaktifkan pagination
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                    extend: 'csv',
-                    text: 'Export CSV',
-                    exportOptions: {
-                        columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
-                    }
-                },
-                {
-                    extend: 'excel',
-                    text: 'Export Excel',
-                    exportOptions: {
-                        columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
-                    }
-                },
+            // scrollY: '50vh', // Menyesuaikan tinggi scroll vertikal sesuai kebutuhan Anda
+            // scrollCollapse: true,
+            // paging: false, // Menonaktifkan pagination
+            // dom: 'Bfrtip',
+            // buttons: [
+            //     {
+            //         extend: 'csv',
+            //         text: 'Export CSV',
+            //         exportOptions: {
+            //             columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
+            //         }
+            //     },
+            //     {
+            //         extend: 'excel',
+            //         text: 'Export Excel',
+            //         exportOptions: {
+            //             columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
+            //         }
+            //     },
                 
+            // ],
+            buttons: [{
+                    text: 'Export PDF',
+                    action: function() {
+                        window.location.href = "<?= base_url() ?>export-pdf-keperluan";
+                    }
+                }
             ],
             
         });
@@ -219,6 +225,17 @@
             select: true,
             dom: 'Bfrtip',
             buttons: [],
+            columns: [
+                {data: 0},
+                {data: 1},
+                {data: 2},
+                {
+                    data: 3,
+                    render: function (data) {
+                        return formatDateTime(data);
+                    }
+                }
+            ],
             ajax: '/administrator/kegiatan-pegawai-eksternal-dtss',
         });
     });
