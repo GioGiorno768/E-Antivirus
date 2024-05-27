@@ -272,7 +272,7 @@ class AdminController extends MasterController
 
         $keperluan = $this->userKeperluanModel->select('login.nama_lengkap, 
         keperluan_user.id, keperluan_user.foto, keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, 
-        keperluan_user.durasi, personil_eksternal.nama')
+        keperluan_user.durasi, personil_eksternal.nama, mo.nama_opd')
         ->join('login_keperluan_user', 'keperluan_user.id = login_keperluan_user.keperluan_user_id')
         ->join('login', 'login_keperluan_user.user_id = login.id')
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
@@ -298,9 +298,10 @@ class AdminController extends MasterController
             }
             return $names;
         }, 'last')
-        ->setSearchableColumns(['nama_lengkap', 'nama', 'keperluan', 'waktu_mulai', 'waktu_selesai'])
+        ->setSearchableColumns(['nama_lengkap', 'nama', 'nama_opd', 'keperluan', 'waktu_mulai', 'waktu_selesai'])
         ->hide('nama_lengkap')
         ->hide('nama')
+        ->hide('nama_opd')
         ->toJson();
     }
 
