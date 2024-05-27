@@ -24,7 +24,7 @@ class OPDEksternalModel extends Model
             ->join('master_opd', 'master_opd.id_opd = personil_eksternal.opd_id')
             ->where('personil_eksternal.opd_id', $id)
             ->get()
-            ->getResultArray();
+            ->getRow();
 
         return $data;
     }

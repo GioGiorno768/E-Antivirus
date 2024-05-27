@@ -276,6 +276,7 @@ class AdminController extends MasterController
         ->join('login_keperluan_user', 'keperluan_user.id = login_keperluan_user.keperluan_user_id')
         ->join('login', 'login_keperluan_user.user_id = login.id')
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
+        ->join('master_opd as mo', 'personil_eksternal.opd_id = mo.id_opd', 'left')
         ->groupBy('keperluan_user.id');
 
 
@@ -292,7 +293,8 @@ class AdminController extends MasterController
             $users = $this->userKeperluanModel->get_user_eksternal_with_keperluan($row->id);
             $names = '';
             foreach ($users as $user) {
-                $names .= '- ' . $user['nama'] . '<br>';
+                $opd = $this->pegawaiEksternalModel->ambilOPD($user['opd_id']);
+                $names .= '- ' . $user['nama'] . ' (' . $opd->nama_opd . ')' . '<br>';
             }
             return $names;
         }, 'last')
