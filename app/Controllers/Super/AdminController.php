@@ -277,7 +277,8 @@ class AdminController extends MasterController
         ->join('login', 'login_keperluan_user.user_id = login.id')
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
         ->join('master_opd as mo', 'personil_eksternal.opd_id = mo.id_opd', 'left')
-        ->groupBy('keperluan_user.id');
+        ->groupBy('keperluan_user.id')
+        ->orderBy('keperluan_user.id', 'desc');
 
 
         return DataTable::of($keperluan)
@@ -320,21 +321,26 @@ class AdminController extends MasterController
         $kode = $this->kodeAksesModelModel->ambilKodeAkses();
         $inputKodeLama = $this->request->getPost('inputKodeLama');
         $inputKodeBaru = $this->request->getPost('inputKodeBaru');
+        $inputKonfirmasiKodeBaru = $this->request->getPost('inputKonfirmasiKodeBaru');
 
         $data = [
             'kode' => $inputKodeBaru, 
         ];
 
-        if(!empty($inputKodeLama) && !empty($inputKodeBaru)) {
-            $db_kode = $kode['kode'];
-            $verify_password = password_verify($inputKodeLama, $db_kode);
-            if ($verify_password) { 
-                $data['kode'] = password_hash($inputKodeBaru, PASSWORD_DEFAULT);
-                $this->kodeAksesModelModel->update(1, $data);
-                session()->setFlashdata('msg', 'Kode Akses telah diperbarui!');
-            } else {
-                session()->setFlashdata('msg', 'Kode Akses lama tidak sesuai!');
+        if ($inputKodeBaru == $inputKonfirmasiKodeBaru) {
+            if(!empty($inputKodeLama) && !empty($inputKodeBaru)) {
+                $db_kode = $kode['kode'];
+                $verify_password = password_verify($inputKodeLama, $db_kode);
+                if ($verify_password) { 
+                    $data['kode'] = password_hash($inputKodeBaru, PASSWORD_DEFAULT);
+                    $this->kodeAksesModelModel->update(1, $data);
+                    session()->setFlashdata('msg', 'Kode Akses telah diperbarui!');
+                } else {
+                    session()->setFlashdata('error', 'Kode Akses lama tidak sesuai!');
+                }
             }
+        } else {
+            session()->setFlashdata('error', 'Konfirmasi Kode Akses tidak sesuai!');
         }
         return redirect()->to(base_url('administrator/kode-akses'));
     }
@@ -347,9 +353,9 @@ class AdminController extends MasterController
         // ->getResultArray();
         // dd($pegawaiEksternal);
 
-        $data['title']   = 'Rekap Kegiatan Pegawai Eksternal';
-        $content['text'] = '<h4>Rekeperluan Kegiatan Eksternal</h4>';
-        $content['desc'] = 'Rekeperluan Kegiatan Eksternal';
+        $data['title']   = 'Kegiatan OPD Eksternal';
+        $content['text'] = '<h4>Kegiatan OPD Eksternal</h4>';
+        $content['desc'] = 'Kegiatan OPD Eksternal';
 
         $data['contentString']   = view('be/content/rekap-pegawai-eksternal/str-kegiatan-pegawai-eksternal', $content);
 
@@ -360,7 +366,8 @@ class AdminController extends MasterController
     {
         $pegawaiEksternal = $this->pegawaiEksternalModel->select('personil_eksternal.id, personil_eksternal.nama, mo.nama_opd, ku.waktu_selesai')
         ->join('master_opd as mo', 'personil_eksternal.opd_id = mo.id_opd')
-        ->join('keperluan_user as ku', 'personil_eksternal.keperluan_user_id = ku.id');
+        ->join('keperluan_user as ku', 'personil_eksternal.keperluan_user_id = ku.id')
+        ->orderBy('personil_eksternal.id', 'desc');
 
 
         return DataTable::of($pegawaiEksternal)

@@ -55,13 +55,16 @@
                 foreach ($keperluan2x as $keperluan) { ?>
                 <tr>
                     <td><?= $keperluan['id'] ?></td>
-                    <td><img src="<?= base_url() . 'img/keperluan/' . $keperluan['foto']?>" alt="Sample Image"></td>
+                    <td>
+                        <a href="<?= base_url() . 'img/keperluan/' . $keperluan['foto']?>">
+                        <?= base_url() . 'img/keperluan/' . $keperluan['foto']?>
+                    </td>
                     <td><?= $keperluan['users'] ?></td>
                     <td><?= $keperluan['eksternal'] ?></td>
                     <td><?= $keperluan['keperluan'] ?></td>
                     <td><?= $keperluan['waktu_mulai'] ?></td>
                     <td><?= $keperluan['waktu_selesai'] ?></td>
-                    <td><?= $keperluan['durasi'] ?></td>
+                    <td><?= formatDurasi($keperluan['durasi']) ?></td>
                 </tr>
                 <?php } ?>
             </tbody>
@@ -69,3 +72,28 @@
     </div>
 </body>
 </html>
+
+<?php
+function formatDurasi($data) {
+    $jam = floor($data / 3600);
+    $menit = floor(($data / 60) % 60);
+    $sisaDetik = $data % 60;
+
+    $hasil = [];
+
+    if ($jam > 0) {
+        $hasil[] = $jam . ' jam';
+    }
+    if ($menit > 0) {
+        $hasil[] = $menit . ' menit';
+    }
+    if ($sisaDetik > 0 || count($hasil) === 0) {
+        $hasil[] = $sisaDetik . ' detik';
+    }
+
+    return implode(' ', $hasil);
+}
+
+// Misalkan $keperluan['durasi'] adalah nilai durasi dalam detik
+$durasi = $keperluan['durasi'];
+?>

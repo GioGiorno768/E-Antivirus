@@ -19,6 +19,12 @@
                     </div>    
                 </div>
                 <div class="mb-3">
+                    <label for="inputKonfirmasiKodeBaru" class="form-label">Konfirmasi Kode Akses Baru</label>
+                    <div class="col-sm-4">
+                        <input type="password" class="form-control bg-light" id="inputKonfirmasiKodeBaru" name="inputKonfirmasiKodeBaru" placeholder="Masukkan Kode Akses Baru">
+                    </div>    
+                </div>
+                <div class="mb-3">
                     <button type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </form>

@@ -203,31 +203,16 @@
                     }
                 }
             ],
-            // scrollY: '50vh', // Menyesuaikan tinggi scroll vertikal sesuai kebutuhan Anda
-            // scrollCollapse: true,
-            // paging: false, // Menonaktifkan pagination
-            // dom: 'Bfrtip',
-            // buttons: [
-            //     {
-            //         extend: 'csv',
-            //         text: 'Export CSV',
-            //         exportOptions: {
-            //             columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
-            //         }
-            //     },
-            //     {
-            //         extend: 'excel',
-            //         text: 'Export Excel',
-            //         exportOptions: {
-            //             columns: ':not(:eq(1))' // Mengecualikan kolom ke-2 (kolom foto) dari ekspor
-            //         }
-            //     },
-                
-            // ],
             buttons: [{
                     text: 'Export PDF',
                     action: function() {
                         window.location.href = "<?= base_url() ?>export-pdf-keperluan";
+                    }
+                },
+                {
+                    text: 'Export Excel',
+                    action: function() {
+                        window.location.href = "<?= base_url() ?>export-excel-keperluan";
                     }
                 }
             ],

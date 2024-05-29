@@ -58,9 +58,14 @@ $routes->get('/loginRev/fetch-opd', 'Member\AuthController::loginRev_list_opd');
 
 // export pdf
 $routes->get('/show-export-pdf', 'ExportPDFController::index');
-$routes->get('/export-pdf-keperluan', 'ExportPDFController::export_keperluan_user');
+$routes->get('/export-pdf-keperluan', 'ExportPDFController::export_keperluan_user_pdf');
+
+// export excel
+$routes->get('/export-excel-keperluan', 'ExportPDFController::export_keperluan_user_excel');
 
 // Auth Route admin
 $routes->get('/admin/login', 'Super\AuthAdminController::login');
 $routes->post('/admin/login', 'Super\AuthAdminController::login_action');
 $routes->get('/admin/logout', 'Super\AuthAdminController::logout_action');
+
+$routes->get('/display-image-keperluan/{:num}', 'ExportPDFController::display_image_keperluan');
