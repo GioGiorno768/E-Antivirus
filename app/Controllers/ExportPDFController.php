@@ -74,7 +74,7 @@ class ExportPDFController extends BaseController
 
     public function export_keperluan_user_excel() {
         // Mendapatkan data dari model
-        $data = $this->userKeperluanModel->select('keperluan_user.id, GROUP_CONCAT(DISTINCT login.nama_lengkap SEPARATOR " | ") as users, keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, keperluan_user.durasi, GROUP_CONCAT(DISTINCT CONCAT(personil_eksternal.nama, " (", mo.nama_opd, ")") SEPARATOR " | ") AS eksternal')
+        $data = $this->userKeperluanModel->select('keperluan_user.id, keperluan_user.foto, GROUP_CONCAT(DISTINCT login.nama_lengkap SEPARATOR " | ") as users, keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, keperluan_user.durasi, GROUP_CONCAT(DISTINCT CONCAT(personil_eksternal.nama, " (", mo.nama_opd, ")") SEPARATOR " | ") AS eksternal')
         ->join('login_keperluan_user', 'keperluan_user.id = login_keperluan_user.keperluan_user_id')
         ->join('login', 'login_keperluan_user.user_id = login.id')
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
@@ -88,22 +88,24 @@ class ExportPDFController extends BaseController
 
         // Menambahkan judul kolom
         $sheet->setCellValue('A1', 'ID');
-        $sheet->setCellValue('B1', 'Internal');
-        $sheet->setCellValue('C1', 'OPD Eksternal');
-        $sheet->setCellValue('D1', 'Keperluan');
-        $sheet->setCellValue('E1', 'Waktu Mulai');
-        $sheet->setCellValue('F1', 'Waktu Selesai');
-        $sheet->setCellValue('G1', 'Durasi');
+        $sheet->setCellValue('B1', 'Foto');
+        $sheet->setCellValue('C1', 'Internal');
+        $sheet->setCellValue('D1', 'OPD Eksternal');
+        $sheet->setCellValue('E1', 'Keperluan');
+        $sheet->setCellValue('F1', 'Waktu Mulai');
+        $sheet->setCellValue('G1', 'Waktu Selesai');
+        $sheet->setCellValue('H1', 'Durasi');
 
         // Menambahkan data dari database ke file Excel
         $row = 2;
         foreach ($data as $item) {
             $sheet->setCellValue('A'.$row, $item['id']);
-            $sheet->setCellValue('B'.$row, $item['users']);
-            $sheet->setCellValue('C'.$row, $item['eksternal']);
-            $sheet->setCellValue('D'.$row, $item['keperluan']);
-            $sheet->setCellValue('E'.$row, $item['waktu_mulai']);
-            $sheet->setCellValue('F'.$row, $item['waktu_selesai']);
+            $sheet->setCellValue('B'.$row, '=HYPERLINK("'. base_url('img/keperluan/') . $item['foto'] .'", "Tampilkan Gambar")');
+            $sheet->setCellValue('C'.$row, $item['users']);
+            $sheet->setCellValue('D'.$row, $item['eksternal']);
+            $sheet->setCellValue('E'.$row, $item['keperluan']);
+            $sheet->setCellValue('F'.$row, $item['waktu_mulai']);
+            $sheet->setCellValue('G'.$row, $item['waktu_selesai']);
             // Convert durasi to readable format
             $jam = floor($item['durasi'] / 3600);
             $menit = floor(($item['durasi'] / 60) % 60);
@@ -123,7 +125,7 @@ class ExportPDFController extends BaseController
 
             $durasi = implode(' ', $hasil);
 
-            $sheet->setCellValue('G'.$row, $durasi);
+            $sheet->setCellValue('H'.$row, $durasi);
 
             $row++;
         }

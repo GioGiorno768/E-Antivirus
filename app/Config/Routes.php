@@ -67,5 +67,3 @@ $routes->get('/export-excel-keperluan', 'ExportPDFController::export_keperluan_u
 $routes->get('/admin/login', 'Super\AuthAdminController::login');
 $routes->post('/admin/login', 'Super\AuthAdminController::login_action');
 $routes->get('/admin/logout', 'Super\AuthAdminController::logout_action');
-
-$routes->get('/display-image-keperluan/{:num}', 'ExportPDFController::display_image_keperluan');

@@ -40,6 +40,7 @@ const listPersonil = document.querySelector(".list-personil");
 const inputPersonil = document.getElementById("input-personil");
 // const valuePersonil = document.querySelector(".valuePersonil");
 const submitForm = document.querySelector(".submit");
+const base_url = window.location.origin;
 
 // submitForm.addEventListener('click', ()=>{
   
@@ -127,7 +128,7 @@ inputPersonil.addEventListener("input", function () {
 });
 
 // rubah sesuai kebutuhan
-const jsonName = "http://localhost:8080/loginRev/fetch-personil-internal";
+const jsonName = base_url + "/loginRev/fetch-personil-internal";
 
 fetch(jsonName)
   .then((result) => result.json())
@@ -200,7 +201,7 @@ function coba(valueOpd){
 // ============ end fungsi add pegawai eksternal ==============
 
 // rubah sesuai kebutuhan
-const jsonOpd = "http://localhost:8080/loginRev/fetch-opd";
+const jsonOpd = base_url + "/loginRev/fetch-opd";
 
 // ============ fungsi search Opd ==============
 function fetchOpd(dropdown, spanOpd, valueOpd) {

@@ -57,7 +57,7 @@
                     <td><?= $keperluan['id'] ?></td>
                     <td>
                         <a href="<?= base_url() . 'img/keperluan/' . $keperluan['foto']?>">
-                        <?= base_url() . 'img/keperluan/' . $keperluan['foto']?>
+                        Tampilkan Gambar
                     </td>
                     <td><?= $keperluan['users'] ?></td>
                     <td><?= $keperluan['eksternal'] ?></td>
