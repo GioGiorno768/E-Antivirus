@@ -19,6 +19,18 @@ class ExportPDFController extends BaseController
     public function __construct()
     {
         $this->userKeperluanModel = new UserKeperluanModel();
+        function formatDateTime($dateTimeStr) {
+            // Pisahkan tanggal dan waktu
+            list($date, $time) = explode(' ', $dateTimeStr);
+        
+            // Pisahkan tahun, bulan, dan hari
+            list($year, $month, $day) = explode('-', $date);
+        
+            // Gabungkan kembali dengan format yang diinginkan
+            $formattedDateTime = "$day-$month-$year $time";
+        
+            return $formattedDateTime;
+        }
     }
 
     public function index()
@@ -38,8 +50,8 @@ class ExportPDFController extends BaseController
 
     public function export_keperluan_user_pdf() {
         $keperluan2x = $this->userKeperluanModel->select('keperluan_user.id, keperluan_user.foto, keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, keperluan_user.durasi,  
-        GROUP_CONCAT(DISTINCT login.nama_lengkap SEPARATOR "<br>") as users,
-        GROUP_CONCAT(DISTINCT CONCAT(personil_eksternal.nama, " (", mo.nama_opd, ")") SEPARATOR "<br>") AS eksternal')
+        GROUP_CONCAT(DISTINCT CONCAT("- ", login.nama_lengkap) SEPARATOR "<br>") as users,
+        GROUP_CONCAT(DISTINCT CONCAT("- ", personil_eksternal.nama, " (", mo.nama_opd, ")") SEPARATOR "<br>") AS eksternal')
         ->join('login_keperluan_user', 'keperluan_user.id = login_keperluan_user.keperluan_user_id')
         ->join('login', 'login_keperluan_user.user_id = login.id')
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
@@ -74,8 +86,12 @@ class ExportPDFController extends BaseController
     }
 
     public function export_keperluan_user_excel() {
+
         // Mendapatkan data dari model
-        $data = $this->userKeperluanModel->select('keperluan_user.id, keperluan_user.foto, GROUP_CONCAT(DISTINCT login.nama_lengkap SEPARATOR " | ") as users, keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, keperluan_user.durasi, GROUP_CONCAT(DISTINCT CONCAT(personil_eksternal.nama, " (", mo.nama_opd, ")") SEPARATOR " | ") AS eksternal')
+        $data = $this->userKeperluanModel->select('keperluan_user.id, keperluan_user.foto, 
+        GROUP_CONCAT(DISTINCT CONCAT(login.nama_lengkap) SEPARATOR " | ") as users, 
+        keperluan_user.keperluan, keperluan_user.waktu_mulai, keperluan_user.waktu_selesai, keperluan_user.durasi, 
+        GROUP_CONCAT(DISTINCT CONCAT(personil_eksternal.nama, " (", mo.nama_opd, ")") SEPARATOR " | ") AS eksternal')
         ->join('login_keperluan_user', 'keperluan_user.id = login_keperluan_user.keperluan_user_id')
         ->join('login', 'login_keperluan_user.user_id = login.id')
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
@@ -106,8 +122,8 @@ class ExportPDFController extends BaseController
             $sheet->setCellValue('C'.$row, $item['users']);
             $sheet->setCellValue('D'.$row, $item['eksternal']);
             $sheet->setCellValue('E'.$row, $item['keperluan']);
-            $sheet->setCellValue('F'.$row, $item['waktu_mulai']);
-            $sheet->setCellValue('G'.$row, $item['waktu_selesai']);
+            $sheet->setCellValue('F'.$row, formatDateTime($item['waktu_mulai']));
+            $sheet->setCellValue('G'.$row, formatDateTime($item['waktu_selesai']));
             // Convert durasi to readable format
             $jam = floor($item['durasi'] / 3600);
             $menit = floor(($item['durasi'] / 60) % 60);
@@ -134,11 +150,12 @@ class ExportPDFController extends BaseController
 
         // Menyimpan file Excel
         $writer = new Xlsx($spreadsheet);
-        $file_name = 'export_data.xlsx'; // Nama file yang ingin Anda berikan
+        $file_name = 'laporan_keperluan.xlsx'; // Nama file yang ingin Anda berikan
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
         header('Content-Disposition: attachment;filename="'.$file_name.'"');
         header('Cache-Control: max-age=0');
         $writer->save('php://output');
         exit();
     }
+
 }

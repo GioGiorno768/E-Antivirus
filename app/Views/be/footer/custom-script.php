@@ -147,17 +147,17 @@
                         var baseUrl = "<?php echo base_url('img/keperluan/'); ?>";
                         return `
 
-                        <img src="${baseUrl}${data}" alt="${data}" class="img-fluid img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal${row[1]}">
+                        <img src="${baseUrl}${data}" alt="File tidak ditemukan" class="img-fluid img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal${row[1]}">
                         
                         <div class="modal fade" id="imageModal${row[1]}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                            <div class="modal-dialog modal-dialog-centered modal-xl">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body text-center">
-                                        <img src="${baseUrl}${data}" alt="Sample Image" class="img-fluid">
+                                        <img src="${baseUrl}${data}" alt="File tidak ditemukan" class="img-fluid">
                                     </div>
                                 </div>
                             </div>

@@ -62,8 +62,8 @@
                     <td><?= $keperluan['users'] ?></td>
                     <td><?= $keperluan['eksternal'] ?></td>
                     <td><?= $keperluan['keperluan'] ?></td>
-                    <td><?= $keperluan['waktu_mulai'] ?></td>
-                    <td><?= $keperluan['waktu_selesai'] ?></td>
+                    <td><?= formatDateTime($keperluan['waktu_mulai']) ?></td>
+                    <td><?= formatDateTime($keperluan['waktu_selesai']) ?></td>
                     <td><?= formatDurasi($keperluan['durasi']) ?></td>
                 </tr>
                 <?php } ?>
@@ -74,6 +74,19 @@
 </html>
 
 <?php
+function formatDateTime($dateTimeStr) {
+    // Pisahkan tanggal dan waktu
+    list($date, $time) = explode(' ', $dateTimeStr);
+
+    // Pisahkan tahun, bulan, dan hari
+    list($year, $month, $day) = explode('-', $date);
+
+    // Gabungkan kembali dengan format yang diinginkan
+    $formattedDateTime = "$day-$month-$year $time";
+
+    return $formattedDateTime;
+}
+
 function formatDurasi($data) {
     $jam = floor($data / 3600);
     $menit = floor(($data / 60) % 60);
