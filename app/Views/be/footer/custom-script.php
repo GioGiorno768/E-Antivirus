@@ -147,7 +147,7 @@
                         var baseUrl = "<?php echo base_url('img/keperluan/'); ?>";
                         return `
 
-                        <img src="${baseUrl}${data}" alt="Sample Image" class="img-fluid img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal${row[1]}">
+                        <img src="${baseUrl}${data}" alt="${data}" class="img-fluid img-thumbnail" data-bs-toggle="modal" data-bs-target="#imageModal${row[1]}">
                         
                         <div class="modal fade" id="imageModal${row[1]}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-lg">
