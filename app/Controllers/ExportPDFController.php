@@ -45,6 +45,7 @@ class ExportPDFController extends BaseController
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
         ->join('master_opd as mo', 'personil_eksternal.opd_id = mo.id_opd', 'left')
         ->groupBy('keperluan_user.id')
+        ->orderBy('keperluan_user.id', 'desc')
         ->get()
         ->getResultArray();
 
@@ -80,6 +81,7 @@ class ExportPDFController extends BaseController
         ->join('personil_eksternal', 'keperluan_user.id = personil_eksternal.keperluan_user_id', 'left')
         ->join('master_opd as mo', 'personil_eksternal.opd_id = mo.id_opd', 'left')
         ->groupBy('keperluan_user.id')
+        ->orderBy('keperluan_user.id', 'desc')
         ->get()
         ->getResultArray();
 
