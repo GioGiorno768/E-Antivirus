@@ -151,13 +151,13 @@
                         
                         <div class="modal fade" id="imageModal${row[1]}" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered modal-xl">
-                                <div class="modal-content">
+                                <div class="modal-content w-auto m-auto" >
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="imageModalLabel">Image Preview</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">x</button>
                                     </div>
-                                    <div class="modal-body text-center">
-                                        <img src="${baseUrl}${data}" alt="File tidak ditemukan" class="img-fluid">
+                                    <div class="modal-body text-center" >
+                                        <img src="${baseUrl}${data}"  alt="File tidak ditemukan" class="img-fluid">
                                     </div>
                                 </div>
                             </div>
